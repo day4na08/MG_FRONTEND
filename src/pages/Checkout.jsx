@@ -25,7 +25,7 @@ const CheckoutForm = ({ onPurchaseComplete }) => {
     useEffect(() => {
         const userId = cookies.get('id');
         if (userId) {
-            axios.get(`http://localhost:3001/users/${userId}`)
+            axios.get(`https://mgbackend-production.up.railway.app/users/${userId}`)
                 .then(response => {
                     const user = response.data;
                     setUserData({

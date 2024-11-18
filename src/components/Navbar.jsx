@@ -29,7 +29,7 @@ const NavBar = () => {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await axios.get(`http://localhost:3001/users/${userId}`);
+                const response = await axios.get(`https://mgbackend-production.up.railway.app/users/${userId}`);
                 setUserData(response.data); // Almacena los datos del usuario
             } catch (error) {
                 setError('Error al obtener datos del usuario'); // Mensaje de error personalizado
@@ -39,7 +39,7 @@ const NavBar = () => {
       
         const fetchProducts = async () => {
             try {
-                await axios.get('http://localhost:3001/products');
+                await axios.get('https://mgbackend-production.up.railway.app/products');
             } catch (error) {
                 setError('Error al obtener productos');
                 console.error('Error fetching products:', error);

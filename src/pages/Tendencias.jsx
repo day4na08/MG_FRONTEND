@@ -27,13 +27,13 @@ const Tendencias = () => {
 
   useEffect(() => {
     // Obtener productos
-    fetch('http://localhost:3001/productos')
+    fetch('https://mgbackend-production.up.railway.app/productos')
       .then(response => response.json())
       .then(data => setProductos(data))
       .catch(error => console.error('Error fetching productos:', error));
 
     // Obtener estadísticas de ventas
-    fetch('http://localhost:3001/ventas')
+    fetch('https://mgbackend-production.up.railway.app/ventas')
       .then(response => response.json())
       .then(data => setVentas(data))
       .catch(error => console.error('Error fetching ventas:', error));

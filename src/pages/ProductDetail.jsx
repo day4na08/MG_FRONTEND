@@ -19,7 +19,7 @@ const ProductDetail = () => {
   useEffect(() => {
     const fetchProducto = async () => {
       try {
-        const response = await Axios.get(`http://localhost:3001/llamarProducto/${id}`);
+        const response = await Axios.get(`https://mgbackend-production.up.railway.app/llamarProducto/${id}`);
         setProducto(response.data);
         setSelectedImage(response.data.imagen1 || '');
       } catch (error) {

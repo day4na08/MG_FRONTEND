@@ -19,7 +19,7 @@ function UserManagement() {
 
 
   const addUser = () => {
-    Axios.post("http://localhost:3001/createUser", {
+    Axios.post("https://mgbackend-production.up.railway.app/createUser", {
       username: username,
       apellido: apellido,
       email: email,
@@ -54,7 +54,7 @@ function UserManagement() {
       })
       .then((result) => {
         if (result.isConfirmed) {
-          Axios.delete(`http://localhost:3001/deleteUser/${val.id}`).then(() => {
+          Axios.delete(`https://mgbackend-production.up.railway.app/deleteUser/${val.id}`).then(() => {
               swalWithBootstrapButtons.fire({
                 title: "¡Eliminado!",
                 html: `<p>El Usuario: <strong>${val.username}</strong> fue eliminado satisfactoriamente</p>`,
@@ -97,7 +97,7 @@ const cancel =()=> {
 }
 
 const update =()=> {
-    Axios.put("http://localhost:3001/updateUser",{
+    Axios.put("https://mgbackend-production.up.railway.app/updateUser",{
     id:id,
     username:username,
     apellido:apellido,
@@ -130,7 +130,7 @@ const editarUsuario =(val)=>{
 
 
   const getRegistrados = () => {
-    Axios.get("http://localhost:3001/registrados").then((response) => {
+    Axios.get("https://mgbackend-production.up.railway.app/registrados").then((response) => {
       setUsuarios(response.data);
     });
   }

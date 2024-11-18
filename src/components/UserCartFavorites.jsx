@@ -12,7 +12,7 @@ function UserCartFavorites() {
   useEffect(() => {
     const fetchFavoriteItems = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/users/1/favorites');
+        const response = await axios.get('https://mgbackend-production.up.railway.app/users/1/favorites');
         setFavoriteItems(response.data);
       } catch (error) {
         console.error('Error fetching favorite items:', error);
@@ -24,7 +24,7 @@ function UserCartFavorites() {
 
   const handleRemoveFromFavorites = async (productId) => {
     try {
-      await axios.delete(`http://localhost:3001/users/1/favorites/${productId}`);
+      await axios.delete(`https://mgbackend-production.up.railway.app/users/1/favorites/${productId}`);
       setFavoriteItems(favoriteItems.filter(item => item.id !== productId));
       setMessage('Artículo eliminado de favoritos.');
     } catch (error) {

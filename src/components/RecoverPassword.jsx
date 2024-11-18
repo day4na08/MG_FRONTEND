@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
-const baseUrl = "http://localhost:3001/usuarios"; // Asegúrate de que esta URL sea la correcta
+const baseUrl = "https://mgbackend-production.up.railway.app/usuarios"; // Asegúrate de que esta URL sea la correcta
 
 class RecoverPassword extends Component {
     state = {

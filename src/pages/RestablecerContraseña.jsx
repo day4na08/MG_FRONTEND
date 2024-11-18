@@ -15,7 +15,7 @@ function RestablecerContraseña() {
   useEffect(() => {
     const verificarToken = async () => {
       try {
-        const response = await fetch(`http://localhost:3001/api/password/verify-token/${token}`, {
+        const response = await fetch(`https://mgbackend-production.up.railway.app/api/password/verify-token/${token}`, {
           method: 'POST',
         });
 
@@ -51,7 +51,7 @@ function RestablecerContraseña() {
     }
 
     try {
-      const response = await fetch(`http://localhost:3001/api/password/reset/${token}`, {
+      const response = await fetch(`https://mgbackend-production.up.railway.app/api/password/reset/${token}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

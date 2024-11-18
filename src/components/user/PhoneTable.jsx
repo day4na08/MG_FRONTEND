@@ -10,7 +10,7 @@ const PhoneTable = ({ userId }) => {
   useEffect(() => {
     const fetchPhones = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/users/${userId}/phones`);
+        const response = await axios.get(`https://mgbackend-production.up.railway.app/users/${userId}/phones`);
         setPhones(response.data);
       } catch (error) {
         console.error("Error fetching phones:", error);
@@ -22,7 +22,7 @@ const PhoneTable = ({ userId }) => {
 
   const handleAddPhone = async () => {
     try {
-      await axios.post(`http://localhost:3001/users/${userId}/phones`, { numero: newPhone });
+      await axios.post(`https://mgbackend-production.up.railway.app/users/${userId}/phones`, { numero: newPhone });
       setPhones([...phones, { numero: newPhone }]);
       setNewPhone('');
     } catch (error) {
@@ -32,7 +32,7 @@ const PhoneTable = ({ userId }) => {
 
   const handleDeletePhone = async (phoneId) => {
     try {
-      await axios.delete(`http://localhost:3001/users/${userId}/phones/${phoneId}`);
+      await axios.delete(`https://mgbackend-production.up.railway.app/users/${userId}/phones/${phoneId}`);
       setPhones(phones.filter(phone => phone.id !== phoneId));
     } catch (error) {
       console.error("Error deleting phone:", error);
@@ -41,7 +41,7 @@ const PhoneTable = ({ userId }) => {
 
   const handleEditPhone = async (phone) => {
     try {
-      await axios.put(`http://localhost:3001/users/${userId}/phones/${phone.id}`, phone);
+      await axios.put(`https://mgbackend-production.up.railway.app/users/${userId}/phones/${phone.id}`, phone);
       setPhones(phones.map(p => (p.id === phone.id ? phone : p)));
       setEditingPhone(null);
     } catch (error) {

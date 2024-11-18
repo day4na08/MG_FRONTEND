@@ -23,7 +23,7 @@ function UserProfile() {
           throw new Error('No se encontró ID de usuario');
         }
 
-        const response = await axios.get(`http://localhost:3001/users/${userId}`);
+        const response = await axios.get(`https://mgbackend-production.up.railway.app/users/${userId}`);
         const data = response.data;
 
         if (!data) {
@@ -52,7 +52,7 @@ function UserProfile() {
       if (!userId) {
         throw new Error('No se encontró ID de usuario');
       }
-      await axios.put(`http://localhost:3001/users/${userId}`, updatedData);
+      await axios.put(`https://mgbackend-production.up.railway.app/users/${userId}`, updatedData);
       setUserData(updatedData);
       alert('Datos actualizados exitosamente');
     } catch (error) {

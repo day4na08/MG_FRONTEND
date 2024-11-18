@@ -8,7 +8,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import logo from '../images/logo-small.png'; // Asegúrate de que la ruta sea correcta
 
-const baseUrl = "http://localhost:3001/users";
+const baseUrl = "https/mgbackend-production.up.railway.app/users";
 const cookies = new Cookies();
 
 class Register extends Component {
@@ -66,7 +66,7 @@ class Register extends Component {
             };
     
             // Solicitud POST al servidor para registrar al usuario
-            await axios.post('http://localhost:3001/register', newUser);
+            await axios.post('https://mgbackend-production.up.railway.app/register', newUser);
             
             // Si todo sale bien, redirigir al login
             this.setState({ success: true });

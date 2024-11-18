@@ -25,7 +25,7 @@ const Compras = () => {
         return;
       }
   
-      const response = await axios.get('http://localhost:3001/purchases');
+      const response = await axios.get('https://mgbackend-production.up.railway.app/purchases');
       if (response.status === 200) {
         const userPurchases = response.data.filter(purchase => purchase.user.IdUser.toString() === userId.toString());
         setPurchases(userPurchases);

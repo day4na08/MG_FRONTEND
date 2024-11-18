@@ -40,7 +40,7 @@ const ProductCrud = () => {
     const noti = withReactContent(Swal)
    
     const add =()=> {
-        Axios.post("http://localhost:3001/productos",{
+        Axios.post("https://mgbackend-production.up.railway.app/productos",{
         
         name:name ,
         material:material,
@@ -94,7 +94,7 @@ const ProductCrud = () => {
           reverseButtons: true   
         }).then((result) => {
           if (result.isConfirmed) {
-            Axios.delete(`http://localhost:3001/deleteproductos/${val.id}`).then(() => {
+            Axios.delete(`https://mgbackend-production.up.railway.app/deleteproductos/${val.id}`).then(() => {
                 getProducts(); // Recargar la lista de productos
                 cancel(); // Cancelar cualquier acción adicional si es necesario
                 noti.fire({
@@ -148,7 +148,7 @@ const ProductCrud = () => {
     }
 
     const update =()=> {
-        Axios.put("http://localhost:3001/updateproductos",{
+        Axios.put("https://mgbackend-production.up.railway.app/updateproductos",{
         id:id,
         name:name ,
         material:material,
@@ -213,7 +213,7 @@ const ProductCrud = () => {
     }
 
     const getProducts = () => {
-        Axios.get("http://localhost:3001/llamarProductos").then((response) => {
+        Axios.get("https://mgbackend-production.up.railway.app/llamarProductos").then((response) => {
             setProducts(response.data);
         });
     };

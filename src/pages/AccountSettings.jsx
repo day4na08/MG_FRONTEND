@@ -28,7 +28,7 @@ const AccountSettings = () => {
           return;
         }
 
-        const response = await axios.get(`http://localhost:3001/users/${userId}`);
+        const response = await axios.get(`https://mgbackend-production.up.railway.app/users/${userId}`);
         setUserData(response.data);
       } catch (error) {
         console.error('Error al obtener la información del usuario:', error);
@@ -43,7 +43,7 @@ const AccountSettings = () => {
   const handleNewPasswordChange = (e) => setNewPassword(e.target.value);
 
   // URL base del servidor Express
-  const BASE_URL = 'http://localhost:3002';
+  const BASE_URL = 'https://mgbackend-production.up.railway.app';
 
 // Función para actualizar el correo electrónico
 const updateEmail = async (e) => {

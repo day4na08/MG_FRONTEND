@@ -10,7 +10,7 @@ const AddressTable = ({ userId }) => {
   useEffect(() => {
     const fetchAddresses = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/users/${userId}/addresses`);
+        const response = await axios.get(`https://mgbackend-production.up.railway.app/users/${userId}/addresses`);
         setAddresses(response.data);
       } catch (error) {
         console.error("Error fetching addresses:", error);
@@ -22,7 +22,7 @@ const AddressTable = ({ userId }) => {
 
   const handleAddAddress = async () => {
     try {
-      await axios.post(`http://localhost:3001/users/${userId}/addresses`, { direccion: newAddress });
+      await axios.post(`https://mgbackend-production.up.railway.app/users/${userId}/addresses`, { direccion: newAddress });
       setAddresses([...addresses, { direccion: newAddress }]);
       setNewAddress('');
     } catch (error) {
@@ -32,7 +32,7 @@ const AddressTable = ({ userId }) => {
 
   const handleDeleteAddress = async (addressId) => {
     try {
-      await axios.delete(`http://localhost:3001/users/${userId}/addresses/${addressId}`);
+      await axios.delete(`https://mgbackend-production.up.railway.app/users/${userId}/addresses/${addressId}`);
       setAddresses(addresses.filter(address => address.id !== addressId));
     } catch (error) {
       console.error("Error deleting address:", error);
@@ -41,7 +41,7 @@ const AddressTable = ({ userId }) => {
 
   const handleEditAddress = async (address) => {
     try {
-      await axios.put(`http://localhost:3001/users/${userId}/addresses/${address.id}`, address);
+      await axios.put(`https://mgbackend-production.up.railway.app/users/${userId}/addresses/${address.id}`, address);
       setAddresses(addresses.map(a => (a.id === address.id ? address : a)));
       setEditingAddress(null);
     } catch (error) {
