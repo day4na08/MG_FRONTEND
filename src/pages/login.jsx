@@ -8,7 +8,7 @@ import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import logo from '../images/logo-small.png'; // Asegúrate de que la ruta sea correcta
 
-const baseUrl = "http://localhost:3001/users";
+const baseUrl = "http://mgbackend-production.up.railway.app/users";
 const cookies = new Cookies();
 
 class Login extends Component {
@@ -63,7 +63,7 @@ class Login extends Component {
         this.setState({ isLoading: true });
     
         try {
-            const response = await axios.post('http://localhost:3001/login', {
+            const response = await axios.post('http://mgbackend-production.up.railway.app/login', {
                 email: this.state.form.email,
                 password: this.state.form.password
             });
