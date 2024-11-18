@@ -1,0 +1,28 @@
+.checkout-form .form-group {
+  margin-bottom: 1rem;
+}
+
+.checkout-form label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.checkout-form input {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.checkout-form .error {
+  color: red;
+  font-size: 0.9rem;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 0.7rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+}

@@ -1,0 +1,44 @@
+div.spam{
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    background-color: #1a1616;
+    box-shadow: 0px 2px 3px rgb(66, 65, 65);
+
+}
+
+div.spam button{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 27%;
+    height: 60px;
+}
+div.Infor{
+    background-color: #cccbcb;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    justify-content: center;
+}
+
+
+div.Infor-item{
+    margin-top: 30px;
+    display: flex;
+}
+ul.itemfor{
+    margin-bottom: 80px;
+    margin-top: 50px;
+    margin-left: 100px;
+    padding-right: 100px;
+}
+ul.itemfor,
+ul.itemfor a{
+    text-decoration: none;
+    list-style-type: none;
+    color: #333;
+}
+ul.itemfor a:hover{
+    color: #666060;
+}

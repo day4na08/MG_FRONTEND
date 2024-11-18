@@ -1,0 +1,37 @@
+.catalog {
+    margin-top: 7pc;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding-left: 50px; /* Añade un pequeño espacio desde el borde izquierdo */
+    align-items: flex-start; /* Alinea los elementos hacia la izquierda */
+    
+}
+
+.catalogo-container {
+    display: flex;
+    margin: 10px 100px; /* Espacio alrededor del contenedor del catálogo */
+    max-width: 1200px; /* Ajusta el ancho máximo del contenedor */
+    width: 100%;
+}
+
+.filterPM {
+    flex: 0 0 250px; /* Ajusta el ancho del contenedor del filtro */
+}
+
+.filterRP {
+    flex: 1; /* Ocupa el espacio restante */
+    margin-left: 20px; /* Espacio entre el filtro y los resultados */
+}
+
+h1 {
+    text-align: center;
+    margin: 90px 600px;
+    padding-left: 178px; /* Añade un pequeño espacio desde el borde izquierdo */
+}
+
+/* Asegura que el navbar y footer tengan estilos consistentes */
+.navbar {
+    margin-bottom: 20px;
+}
+

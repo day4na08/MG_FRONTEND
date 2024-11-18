@@ -1,0 +1,488 @@
+.App {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0; /* Fondo gris claro */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    color: white;
+    padding: 1rem;
+  }
+  
+  .menu-button {
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    color: white;
+  }
+  
+  .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .menu-links a {
+    color: white;
+    text-decoration: none;
+    margin: 0 0.5rem;
+  }
+  
+  .search-cart-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .search-container {
+    position: relative;
+  }
+  
+  .search-container input {
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .search-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+    color: #aaa;
+  }
+  
+  .user-info {
+    display: flex;
+    align-items: center;
+  }
+  
+  .user-info img {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin-right: 0.5rem;
+  }
+  
+  .tab-content {
+    padding: 1rem;
+    background-color: #ffffff;
+  }
+  
+  .mueble-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem; /* Espacio entre los muebles */
+  }
+  
+  .mueble {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    width: 220px; /* Ajustado para un tamaño ligeramente más grande */
+    height: 330px; /* Ajustado para un tamaño ligeramente más grande */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    display: flex;
+    flex-direction: column; /* Para organizar el contenido verticalmente */
+    padding: 0.5rem; /* Espaciado interno */
+  }
+  
+  .mueble-image {
+    width: 100%;
+    height: 180px; /* Altura ajustada para mayor visibilidad */
+    object-fit: cover; /* Asegura que la imagen ocupa el área sin distorsionarse */
+    cursor: pointer;
+  }
+  
+  .mueble-info {
+    flex-grow: 1; /* Rellena el espacio disponible */
+  }
+  
+  .mueble-info h3 {
+    font-size: 1.2rem; /* Aumentado para mayor visibilidad */
+    margin: 0.5rem 0;
+  }
+  
+  .stars {
+    color: gold;
+  }
+  
+  .star.filled {
+    color: gold;
+  }
+  
+  button {
+    padding: 0.5rem 1rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .detail-viewer {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    position: relative;
+    max-width: 600px; /* Ajuste para limitar el tamaño máximo */
+    width: 100%;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .detail-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .detail-image {
+    width: 100%;
+    max-width: 400px; /* Limita el tamaño máximo de la imagen */
+    height: auto;
+  }
+  
+  .detail-info {
+    text-align: center;
+    margin-top: 1rem;
+  }
+  
+  .detail-info h2 {
+    font-size: 1.5rem;
+  }
+  
+  .detail-info p {
+    margin: 0.5rem 0;
+  }
+  
+  .back-button {
+    padding: 0.5rem 1rem;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin: 1rem;
+  }
+  
+  .back-button:hover {
+    background-color: #5a6268;
+  }
+  /* Rest of your CSS */
+  
+  /* Detalle del Mueble */
+  .detail-viewer {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 600px;
+    width: 90%;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+  }
+  
+  .detail-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .detail-image {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+  }
+  
+  .detail-info {
+    text-align: center;
+    margin-top: 1rem;
+  }
+  
+  .detail-info h2 {
+    font-size: 1.5rem;
+  }
+  
+  .detail-info p {
+    margin: 0.5rem 0;
+  }
+  
+  .back-button {
+    padding: 0.5rem 1rem;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin: 1rem;
+  }
+  
+  .back-button:hover {
+    background-color: #5a6268;
+  }
+  /* Agrega estos estilos al final de tu archivo App.css o en tu archivo CSS correspondiente */
+  
+  .welcome-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 50px;
+    background-color: #f5f5f5;
+  }
+  
+  .welcome-section h1 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .welcome-section p {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 30px;
+  }
+  
+  .welcome-section img {
+    width: 300px; /* Ajusta el tamaño del GIF según tu preferencia */
+    height: auto;
+  }
+  /* Estilos para la sección de bienvenida */
+  .welcome-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 50px;
+    background-color: #f5f5f5;
+  }
+  
+  .welcome-section h1 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .welcome-section p {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 30px;
+  }
+  
+  .welcome-section img {
+    width: 300px; /* Ajusta el tamaño del GIF según tu preferencia */
+    height: auto;
+  }
+  
+  /* Estilos para la navbar */
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+  }
+  
+  .menu-button {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+  }
+  
+  .logo {
+    font-size: 1.8rem;
+  }
+  
+  .menu-links a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 15px;
+  }
+  
+  .menu-links a:hover {
+    text-decoration: underline;
+  }
+  
+  .search-cart-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .search-container input {
+    padding: 5px;
+  }
+  
+  .user-info {
+    display: flex;
+    align-items: center;
+    color: #fff;
+  }
+  
+  .user-info .user-icon {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+  }
+  
+  /* Estilos para las secciones del catálogo */
+  .tab-content {
+    padding: 20px;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  .mueble-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .message {
+    padding: 10px;
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+    border-radius: 5px;
+    margin: 10px 0;
+  }
+  
+  .detail-viewer {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+  }
+  
+  .detail-content {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .detail-image {
+    max-width: 300px;
+  }
+  
+  .detail-info {
+    max-width: 500px;
+  }
+  
+  .stars i {
+    color: gold;
+  }
+  
+  .add-to-cart-button, .back-to-catalog-button {
+    padding: 10px 20px;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .add-to-cart-button {
+    background-color: #28a745;
+  }
+  
+  .back-to-catalog-button {
+    background-color: #007bff;
+  }
+  
+  .add-to-cart-button:hover, .back-to-catalog-button:hover {
+    opacity: 0.8;
+  }
+  
+  .welcome-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px; /* Ajusta el espaciado según sea necesario */
+    background-color: #f5f5f5;
+    height: 100vh; /* Ocupa toda la altura de la vista */
+    box-sizing: border-box; /* Incluye el padding en el cálculo del tamaño del contenedor */
+  }
+  
+  .welcome-section h1 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .welcome-section p {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 30px;
+  }
+  
+  .welcome-section img {
+    width: 300px; /* Ajusta el tamaño del GIF según tu preferencia */
+    height: auto;
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  

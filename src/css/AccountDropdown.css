@@ -1,0 +1,36 @@
+.account-dropdown {
+    cursor: pointer;
+    position: absolute;
+    top: 100%;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 1000;
+  }
+  
+  .account-dropdown ul {
+    cursor: pointer;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .account-dropdown li {
+    padding: 10px;
+  }
+  
+  .account-dropdown li a {
+    text-decoration: none;
+    color: #333;
+    cursor: pointer;
+  }
+  
+  .account-dropdown li a:hover {
+    cursor: pointer;
+    background-color: #f0f0f0;
+  }
+  Link:hover{
+    cursor: pointer;
+  }
+  

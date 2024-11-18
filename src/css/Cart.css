@@ -1,0 +1,134 @@
+/* src/Estilos/Cart.css */
+body, html{
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  justify-content: center;
+  align-items: center;
+}
+.contentCart 
+{
+  flex: 1; /* Hacer que el contenido crezca para llenar el espacio disponible */
+  margin-top: 4pc;
+  padding: 2rem;
+  max-height: 80%;
+}
+
+.CartContent {
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #f4f4f4;
+  padding: 20px;
+  border-radius: 10px;
+}
+.cart-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Asegurar que ocupe el 100% de la altura de la pantalla */
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 1rem;
+}
+
+.cart-item-image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.item-info {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+}
+
+.remove-btn {
+  background-color: #00ff73;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.remove-btn:hover {
+  background-color: #0008ff;
+}
+
+.cart-summary {
+  margin-top: 2rem;
+  text-align: left;
+}
+
+.purchase-btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.purchase-btn:hover {
+  background-color: #45a049;
+}
+
+.Modal {
+  margin-top: 20pc;
+  margin-bottom: pc;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: auto;
+  max-height: 2000px;
+}
+
+.Overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.purchase-form label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.purchase-form input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+}
+
+.submit-btn {
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.submit-btn:hover {
+  background-color: #218838;
+}
+
+div.footercart{
+  margin-bottom: auto;
+}

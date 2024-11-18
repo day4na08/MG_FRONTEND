@@ -1,0 +1,69 @@
+  .filtros-container {
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+    width: 620px; /* Ancho ajustado */
+    border-right: 1px solid #ddd; /* Borde sutil */
+    height: 100vh; /* Altura completa */
+    overflow-y: auto; /* Scroll para contenido largo */
+    position: fixed; /* Fijo en la izquierda */
+    left: 0; /* Pegado a la izquierda */
+    top: 70px; /* Pegado al top de la página */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+  }
+
+  .filtros-container h3 {
+    margin-bottom: 15px;
+    font-size: 1.4em;
+    color: #333; /* Texto más oscuro */
+  }
+
+  .filtros-container label {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    font-size: 14px; /* Tamaño de texto */
+    color: #555; /* Color de texto */
+  }
+
+  .filtros-container select,
+  .filtros-container input {
+    margin-top: 5px;
+    padding: 10px;
+    border: 1px solid #ccc; /* Borde más claro */
+    border-radius: 6px; /* Bordes más redondeados */
+    width: 100%; /* Usar todo el ancho disponible */
+    font-size: 14px; /* Tamaño de texto */
+    background-color: #f9f9f9; /* Fondo más claro */
+    box-sizing: border-box; /* Asegura que padding y borde se consideren en el ancho */
+  }
+
+  .filtros-container i {
+    margin-right: 2px;
+  }
+
+  .filtros-container .filtrom {
+    width: 100%; /* Ancho total */
+  }
+
+  .filtros-container select:focus,
+  .filtros-container input:focus {
+    border-color: #007bff; /* Color del borde al hacer foco */
+    outline: none; /* Sin borde adicional */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Efecto de sombra al foco */
+  }
+
+  .filtros-container button {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #007bff; /* Color del botón */
+    color: #fff; /* Texto blanco */
+    border: none;
+    border-radius: 6px; /* Bordes redondeados */
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+  .filtros-container button:hover {
+    background-color: #0056b3; /* Oscurecer al hacer hover */
+  }

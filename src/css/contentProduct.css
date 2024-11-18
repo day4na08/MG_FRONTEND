@@ -1,0 +1,114 @@
+/*COMPONENTE1 1*/
+div.cont-center{
+    margin-top: 10pc;
+    display: flex;
+    align-items: center; /* Centrar verticalmente el div dentro del body */
+    justify-content: center; /* Centrar horizontalmente el div dentro del body */
+}
+
+div.Product-info{
+    display: flex; /* Hacer que los elementos internos estén en una fila */
+    gap: 60px; /* Espacio entre los elementos internos */
+    padding: 20px; /* Espacio interno del div */
+    background-color: #ffffff; /* Fondo blanco para el div */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Sombra ligera */
+
+}
+div.cont-img{
+    background-color: #ffffff; /* Color de fondo para los elementos */
+    color: white; /* Color del texto */
+    padding: 10px 20px; /* Espaciado interno de los elementos internos "texto"*/
+    border-radius: 4px; /* Bordes redondeados para los elementos */
+    height: 500px;
+    width: 450px;
+    box-shadow: 0px 3px 4px #1a1616;
+    margin-right: 10px;
+}
+div.carousel-item img.d-block{
+    width: 420px;
+    height: 460px;
+    border-radius: 40px;
+}
+
+
+div.infoProd{
+    height: 500px;
+    width: 400px;
+    color: rgb(53, 53, 53); /* Color del texto */
+    padding: 10px 20px; /* Espaciado interno de los elementos */
+    border-style: none;
+
+}
+div.infoProd hr{
+    box-shadow: 0px 1px 1px #333;
+}
+.color-picker {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .color-button {
+
+    width: 40px;
+    height: 40px;
+    border-color: rgb(133, 123, 123);
+    border-radius: 50%;
+    cursor: pointer;
+    outline: none;
+  }
+  
+  .color-button:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Resalta el botón seleccionado */
+  }
+  button.btn-infor{
+    color: white;
+    background-color: #1f7cf5;
+    
+  }
+  button.btn-infor:hover{
+    color: white;
+    background-color: hsl(214, 48%, 43%);
+
+  }
+  button.btn-lights{
+    color: white;
+    background-color: tomato;
+  }
+  button.btn-lights:hover{
+    background-color: #c75959;
+    color: white;
+  }
+div.metodocomp{
+    font-family:sans-serif;
+    display: inline;
+    padding: 20px;
+}
+div.listimg{
+    text-align: center;
+    justify-items: center;
+    height: 525px;
+    width: 155px;
+    margin-right: 20px;
+    border-radius: 20px;
+    border: none ;
+    /*padding: 255px 70px 285px ;*/
+}
+div.listimg img {
+    border-radius: 30px;
+    border-style: none;
+}
+div.listimg button{
+    border-color: #ebe3e3;
+    border-radius: 40px;
+}
+
+li.botoncomp{
+    list-style-type: none;
+    margin: 10px;
+}
+button.aggcart, 
+button.buyp{
+    width: 95%;
+    
+}

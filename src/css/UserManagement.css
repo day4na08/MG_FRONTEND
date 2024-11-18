@@ -1,0 +1,86 @@
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 1rem;
+  text-align: left;
+}
+
+.user-table th, .user-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+.user-table th {
+  background-color: #f4f4f4;
+}
+
+.user-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+/*botones */
+button {
+  padding: 10px 15px;
+  margin-right: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button:focus {
+  outline: none;
+}
+
+.modal-dialog {
+  max-width: 500px;
+  margin: 1.75rem auto;
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+
+.modal-footer .btn {
+  margin: 0 100px 10px;
+}
+
+/* Opcional: Puedes personalizar el tamaño y estilo del botón si lo deseas */
+.btn-primary {
+  background-color: #018d53;
+  border-color: #018d53;
+}
+
+.btn-primary:hover {
+  background-color: #49791d;
+  border-color: #21360c;
+}
+
+.btn-secondary {
+  background-color: #4b8d42;
+  border-color: #313818;
+}
+
+.btn-secondary:hover {
+  background-color: #507e31;
+  border-color: #527926;
+}
+
+
+
+.modal-body form {
+  margin: 3pc;
+}
+
+.form-control {
+  width: 100%;
+  box-sizing: border-box;
+}

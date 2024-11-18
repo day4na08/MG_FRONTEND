@@ -1,0 +1,51 @@
+/* Contenedor del formulario de búsqueda */
+div.from_search{
+display: flex;
+    z-index: 10;
+    background-color: #21254e;
+    align-items: center;
+    justify-self: center;
+}
+
+/* Botón de búsqueda */
+button.search_catalog {
+    border-radius: 10px;
+    background-color: #91d4e3;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+button.search_catalog:hover {
+    background-color: rgb(53, 148, 170);
+    box-shadow: 0px 1px 4px black;
+}
+
+/* Icono dentro del botón de búsqueda */
+button.search_catalog i.icon {
+    margin: 1px;
+    color: inherit; /* Mantener el color del icono consistente con el estado del botón */
+    transition: color 0.3s ease;
+}
+
+button.search_catalog:hover i.icon {
+    color: rgb(238, 243, 241);
+}
+
+/* Campo de entrada de búsqueda */
+div input.place_search {
+    width: 250px;
+    border-radius: 20px;
+    padding: 7px 10px;
+    border: none;
+    box-shadow: inset 0 0 0 1px #e2e2e2;
+    transition: box-shadow 0.3s ease, color 0.3s ease;
+}
+
+/* Estilo del campo de entrada cuando está enfocado */
+input.place_searchf:focus {
+    color: rgb(53, 53, 53);
+    box-shadow: inset 0 0 0 1px #2e4241, 0px 1px 4px black;
+    outline: none;
+}
