@@ -41,7 +41,7 @@ const ProductCrud = () => {
     const noti = withReactContent(Swal)
    
     const add =()=> {
-        Axios.post("http://localhost:5001/productos",{
+        Axios.post("https://mgbackend-production.up.railway.app/productos",{
         
         name:name ,
         material:material,
@@ -213,7 +213,7 @@ const ProductCrud = () => {
     }
 
     const getProducts = () => {
-        Axios.get(`http://localhost:5001/llamarProductos/${userId}`).then((response) => {
+        Axios.get(`https://mgbackend-production.up.railway.app/llamarProductos/${userId}`).then((response) => {
             setProducts(response.data);
           });
     };

@@ -19,13 +19,13 @@ function CreditCardManagement() {
   const noti = withReactContent(Swal);
 
   const getCards = () => {
-    Axios.get(`http://localhost:5001/creditCards/${userId}`).then((response) => {
+    Axios.get(`https://mgbackend-production.up.railway.app/creditCards/${userId}`).then((response) => {
       setCreditCards(response.data);
     });
   };
 
   const addCard = () => {
-    Axios.post('http://localhost:5001/createCreditCard', {
+    Axios.post('https://mgbackend-production.up.railway.app/createCreditCard', {
       numero: numero,
       nombre: nombre,
       fecha_vencimiento: fechaVencimiento,
@@ -39,7 +39,7 @@ function CreditCardManagement() {
   };
 
   const updateCard = () => {
-    Axios.put(`http://localhost:5001/updateCreditCard`, {
+    Axios.put(`https://mgbackend-production.up.railway.app/updateCreditCard`, {
       id: id,
       numero: numero,
       nombre: nombre,
@@ -62,7 +62,7 @@ function CreditCardManagement() {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
-        Axios.delete(`http://localhost:5001/deleteCreditCard/${cardId}`).then(() => {
+        Axios.delete(`https://mgbackend-production.up.railway.app/deleteCreditCard/${cardId}`).then(() => {
           noti.fire('Eliminada', 'La tarjeta fue eliminada con éxito.', 'success');
           getCards();
         });

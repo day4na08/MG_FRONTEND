@@ -17,14 +17,14 @@ const PhoneTable = () => {
 
   // Fetch user's phones from API
   const getPhones = () => {
-    Axios.get(`http://localhost:5001/phones/${userId}`).then((response) => {
+    Axios.get(`https://mgbackend-production.up.railway.app/phones/${userId}`).then((response) => {
       setPhones(response.data);
     });
   };
 
   // Add new phone to the database
   const addPhone = () => {
-    Axios.post('http://localhost:5001/createphone', {
+    Axios.post('https://mgbackend-production.up.railway.app/createphone', {
       user_id: userId,
       telefono: phone,
     }).then(() => {
@@ -36,7 +36,7 @@ const PhoneTable = () => {
 
   // Update phone number
   const updatePhone = () => {
-    Axios.put('http://localhost:5001/updatephone', {
+    Axios.put('https://mgbackend-production.up.railway.app/updatephone', {
       id,
       telefono: phone,
     }).then(() => {
@@ -57,7 +57,7 @@ const PhoneTable = () => {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
-        Axios.delete(`http://localhost:5001/deletePhone/${phoneId}`).then(() => {
+        Axios.delete(`https://mgbackend-production.up.railway.app/deletePhone/${phoneId}`).then(() => {
           noti.fire('Eliminado', 'El teléfono fue eliminado con éxito.', 'success');
           getPhones();
         });

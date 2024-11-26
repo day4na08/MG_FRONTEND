@@ -3,7 +3,6 @@ import { Navigate } from 'react-router-dom';
 import UserProfile from '../components/UserProfile';
 import CreditCardTable from '../components/user/CreditCardTable';
 import ProductCrud from '../components/ProductCrud';
-import ProductCrud2 from '../components/productprueba';
 import '../css/UserPage.css';
 import NavBar from '../components/Navbar';
 import UserManagement from '../components/admin/UserManagement';
