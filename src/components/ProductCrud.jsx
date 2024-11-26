@@ -9,6 +9,9 @@ import withReactContent from 'sweetalert2-react-content'
 
 
 const ProductCrud = () => {
+    const cookies = new Cookies();
+    const userId = cookies.get('id')
+    const autor = cookies.get('username')
     const [name, setName] = useState("");
     const [material, setMaterial] = useState("")
     const [estilo, setEstilo] = useState("");
@@ -25,8 +28,6 @@ const ProductCrud = () => {
     const [profundidad, setProfundidad] = useState("");
     const [pesoNeto, setPesoNeto] = useState("");
     const [cantidad, setCantidad] = useState("");
-    const [autor, setAutor] = useState("");
-    const [userId, setUserId] = useState("");
     const [imagen1, setImagen1] = useState("");
     const [imagen2, setImagen2] = useState("");
     const [imagen3, setImagen3] = useState("");
@@ -40,7 +41,7 @@ const ProductCrud = () => {
     const noti = withReactContent(Swal)
    
     const add =()=> {
-        Axios.post("https://mgbackend-production.up.railway.app/productos",{
+        Axios.post("http://localhost:5001/productos",{
         
         name:name ,
         material:material,
@@ -63,7 +64,8 @@ const ProductCrud = () => {
         imagen2:imagen2,
         imagen3:imagen3,
         imagen4:imagen4,
-        imagen3D:imagen3D
+        imagen3D:imagen3D,
+        userId:userId
     }).then(()=>{
         getProducts();
         cancel();
@@ -137,7 +139,6 @@ const ProductCrud = () => {
         setProfundidad(""); 
         setPesoNeto(""); 
         setCantidad(""); 
-        setAutor(""); 
         setImagen1(""); 
         setImagen2(""); 
         setImagen3(""); 
@@ -202,7 +203,6 @@ const ProductCrud = () => {
         setProfundidad(val.profundidad); 
         setPesoNeto(val.pesoNeto); 
         setCantidad(val.cantidad); 
-        setAutor(val.autor); 
         setImagen1(val.imagen1); 
         setImagen2(val.imagen2); 
         setImagen3(val.imagen3); 
@@ -213,9 +213,9 @@ const ProductCrud = () => {
     }
 
     const getProducts = () => {
-        Axios.get("https://mgbackend-production.up.railway.app/llamarProductos").then((response) => {
+        Axios.get(`http://localhost:5001/llamarProductos/${userId}`).then((response) => {
             setProducts(response.data);
-        });
+          });
     };
 
     useEffect(() => {
@@ -353,9 +353,9 @@ const ProductCrud = () => {
             /></label>
 
             <label>Autor: <input 
-                onChange={(event) => setAutor(event.target.value)}
-                value={autor}
+                placeholder={autor}
                 type='text'
+                disabled
             /></label>
 
             <label>Cantidad: <input 

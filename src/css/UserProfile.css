@@ -1,50 +1,65 @@
+/* General container for user profile */
+.user-profile {
+  max-width: 800px;
+  margin: 0 auto;
+  color: #495057;
+}
+
+/* Table Styles */
 table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 1.5rem;
-  }
-  
-  thead {
-    background-color: #f8f9fa;
-  }
-  
-  th, td {
-    padding: 0.75rem;
-    text-align: left;
-    border: 1px solid #dee2e6;
-  }
-  
-  th {
-    background-color: #e9ecef;
-    font-weight: bold;
-  }
-  
-  tr:nth-child(even) {
-    background-color: #f2f2f2;
-  }
-  
-  td button {
-    margin-right: 0.5rem;
-  }
-  
-  button {
-    cursor: pointer;
-  }
-  
-  button.btn-danger {
-    background-color: #dc3545;
-    border-color: #dc3545;
-  }
-  
-  button.btn-warning {
-    background-color: #ffc107;
-    border-color: #ffc107;
-  }
-  .modal-content {
-    border-radius: 0.5rem;
-  }
-  
-  .modal-body form {
-    margin-bottom: 0;
-  }
-  
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+}
+
+thead {
+  background-color: #f8f9fa;
+}
+
+th, td {
+  padding: 0.75rem;
+  text-align: left;
+  border: 1px solid #dee2e6;
+}
+
+th {
+  background-color: #e9ecef;
+  font-weight: bold;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+td button {
+  margin-right: 0.5rem;
+}
+
+button {
+  cursor: pointer;
+}
+
+button.btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+button.btn-warning {
+  background-color: #ffc107;
+  border-color: #ffc107;
+}
+
+/* Modal Styles */
+.modal-content {
+  border-radius: 0.5rem;
+}
+
+.modal-body form {
+  margin-bottom: 0;
+}
+
+/* Custom Spinner */
+.spinner-border {
+  display: block;
+  margin: 2rem auto;
+}

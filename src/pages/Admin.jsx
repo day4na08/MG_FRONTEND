@@ -44,8 +44,6 @@ const AdminPage = () => {
         return <Compras />;
       case 'products':
         return <ProductCrud />;
-      case 'products2':
-        return <ProductCrud2 />;
       default:
         return <ProductCrud />;
     }
@@ -67,7 +65,6 @@ const AdminPage = () => {
             <li onClick={() => setActiveTab('compras')}>Historial de Compras</li>
             <li onClick={() => setActiveTab('ventas')}>Historial de ventas</li>
             <li onClick={() => setActiveTab('products')}>Sus Productos</li>
-            <li onClick={() => setActiveTab('products2')}>Sus Productos2</li>
 
           </ul>
         </div>

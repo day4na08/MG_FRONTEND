@@ -1,136 +1,112 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import Axios from 'axios';
+import Swal from 'sweetalert2';
+import Cookies from 'universal-cookie';
+import withReactContent from 'sweetalert2-react-content';
 import { Modal, Button, Form } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '../../css/CreditCardTable.css';
 
-const CreditCardTable = ({ userId }) => {
-  const [userData, setUserData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+function CreditCardManagement() {
+  const cookies = new Cookies();
+  const userId = cookies.get('id');
+  const [numero, setNumero] = useState('');
+  const [nombre, setNombre] = useState('');
+  const [fechaVencimiento, setFechaVencimiento] = useState('');
+  const [codigoSeguridad, setCodigoSeguridad] = useState('');
+  const [creditCards, setCreditCards] = useState([]);
+  const [editar, setEditar] = useState(false);
+  const [id, setId] = useState('');
+  const [showModal, setShowModal] = useState(false); // Controla la visibilidad del modal
+  const noti = withReactContent(Swal);
 
-  const [newCard, setNewCard] = useState({
-    numero: '',
-    nombre: '',
-    fechaVencimiento: '',
-    codigoSeguridad: ''
-  });
-
-  const [editMode, setEditMode] = useState({ key: null });
-  const [showModal, setShowModal] = useState(false);
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const userId = localStorage.getItem('userId');
-        if (!userId) {
-          throw new Error('No se encontró ID de usuario');
-        }
-
-        const response = await axios.get(`https://mgbackend-production.up.railway.app/users/${userId}`);
-        const data = response.data;
-
-        if (!data) {
-          throw new Error('No se encontraron datos del usuario');
-        }
-
-        setUserData({
-          ...data,
-          tarjetasDeCredito: data.tarjetasDeCredito || {},
-        });
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-        setError(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUserData();
-  }, []);
-
-  const handleSaveChanges = async (updatedData) => {
-    try {
-      const userId = localStorage.getItem('userId');
-      if (!userId) {
-        throw new Error('No se encontró ID de usuario');
-      }
-      await axios.put(`https://mgbackend-production.up.railway.app/users/${userId}`, updatedData);
-      setUserData(updatedData);
-      alert('Datos actualizados exitosamente');
-    } catch (error) {
-      console.error("Error al actualizar los datos:", error);
-      alert('Hubo un problema al actualizar los datos. Por favor, inténtelo de nuevo.');
-    }
-  };
-
-  const generateCardKey = () => {
-    const currentKeys = Object.keys(userData.tarjetasDeCredito);
-    return `tarjeta${currentKeys.length + 1}`;
-  };
-
-  const handleAddCard = () => {
-    if (!newCard.numero || !newCard.nombre || !newCard.fechaVencimiento || !newCard.codigoSeguridad) {
-      alert('Por favor, complete todos los campos de la tarjeta de crédito.');
-      return;
-    }
-
-    const fecha = new Date(newCard.fechaVencimiento);
-    const hoy = new Date();
-    if (fecha < hoy) {
-      alert('La fecha de vencimiento no puede ser pasada.');
-      return;
-    }
-
-    const newCardKey = generateCardKey();
-    const updatedCards = { ...userData.tarjetasDeCredito, [newCardKey]: newCard };
-    handleSaveChanges({ ...userData, tarjetasDeCredito: updatedCards });
-
-    setNewCard({
-      numero: '',
-      nombre: '',
-      fechaVencimiento: '',
-      codigoSeguridad: ''
+  const getCards = () => {
+    Axios.get(`http://localhost:5001/creditCards/${userId}`).then((response) => {
+      setCreditCards(response.data);
     });
-    setShowModal(false);
   };
 
-  const handleEdit = (key) => {
-    setEditMode({ key });
-    setNewCard(userData.tarjetasDeCredito[key]);
+  const addCard = () => {
+    Axios.post('http://localhost:5001/createCreditCard', {
+      numero: numero,
+      nombre: nombre,
+      fecha_vencimiento: fechaVencimiento,
+      codigo_seguridad: codigoSeguridad,
+      user_id: userId,
+    }).then(() => {
+      noti.fire('¡Tarjeta añadida!', 'La tarjeta fue registrada con éxito.', 'success');
+      getCards();
+      closeModal();
+    });
+  };
+
+  const updateCard = () => {
+    Axios.put(`http://localhost:5001/updateCreditCard`, {
+      id: id,
+      numero: numero,
+      nombre: nombre,
+      fecha_vencimiento: fechaVencimiento,
+      codigo_seguridad: codigoSeguridad,
+    }).then(() => {
+      noti.fire('¡Actualizado!', 'Los datos de la tarjeta se actualizaron correctamente.', 'success');
+      getCards();
+      closeModal();
+    });
+  };
+
+  const deleteCard = (cardId) => {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'No podrás revertir esto.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminarla',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Axios.delete(`http://localhost:5001/deleteCreditCard/${cardId}`).then(() => {
+          noti.fire('Eliminada', 'La tarjeta fue eliminada con éxito.', 'success');
+          getCards();
+        });
+      }
+    });
+  };
+
+  const openModal = (card = null) => {
+    if (card) {
+      setEditar(true);
+      setNumero(card.numero);
+      setNombre(card.nombre);
+      setFechaVencimiento(card.fecha_vencimiento);
+      setCodigoSeguridad(card.codigo_seguridad);
+      setId(card.id);
+    } else {
+      setEditar(false);
+      setNumero('');
+      setNombre('');
+      setFechaVencimiento('');
+      setCodigoSeguridad('');
+      setId('');
+    }
     setShowModal(true);
   };
 
-  const handleUpdate = () => {
-    const updatedCards = { ...userData.tarjetasDeCredito, [editMode.key]: newCard };
-    handleSaveChanges({ ...userData, tarjetasDeCredito: updatedCards });
-    setEditMode({ key: null });
-    setNewCard({ numero: '', nombre: '', fechaVencimiento: '', codigoSeguridad: '' });
+  const closeModal = () => {
     setShowModal(false);
   };
 
-  const handleDelete = (key) => {
-    const updatedCards = { ...userData.tarjetasDeCredito };
-    delete updatedCards[key];
-    handleSaveChanges({ ...userData, tarjetasDeCredito: updatedCards });
-  };
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (!userData) {
-    return <div>No user data available</div>;
-  }
+  useEffect(() => {
+    getCards();
+  }, []);
 
   return (
-    <div className="credit-card-table">
-      <h3>Tarjetas de Crédito</h3>
-      <table>
+    <div className="container">
+          <h5>Tarjetas de Crédito</h5>
+          <Button variant="success" onClick={() => openModal()}>
+            Agregar Tarjeta
+          </Button>
+      <table className="table mt-4">
         <thead>
           <tr>
+            <th>#</th>
             <th>Número</th>
             <th>Nombre</th>
             <th>Fecha de Vencimiento</th>
@@ -138,80 +114,82 @@ const CreditCardTable = ({ userId }) => {
           </tr>
         </thead>
         <tbody>
-          {Object.entries(userData.tarjetasDeCredito).map(([key, tarjeta]) => (
-            <tr key={key}>
-              <td>**** **** **** {tarjeta.numero.slice(-4)}</td>
-              <td>{tarjeta.nombre}</td>
-              <td>{tarjeta.fechaVencimiento}</td>
+          {creditCards.map((card, index) => (
+            <tr key={card.id}>
+              <td>{index + 1}</td>
+              <td>**** **** **** {card.numero.slice(-4)}</td>
+              <td>{card.nombre}</td>
+              <td>{card.fecha_vencimiento}</td>
               <td>
-                <Button variant="warning" onClick={() => handleEdit(key)}>Editar</Button>
-                <Button variant="danger" onClick={() => handleDelete(key)}>Eliminar</Button>
+                <Button variant="warning" className="me-2" onClick={() => openModal(card)}>
+                  Editar
+                </Button>
+                <Button variant="danger" onClick={() => deleteCard(card.id)}>
+                  Eliminar
+                </Button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <Button variant="primary" onClick={() => setShowModal(true)}>
-        Agregar Tarjeta
-      </Button>
 
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
+      <Modal show={showModal} onHide={closeModal}>
         <Modal.Header closeButton>
-          <Modal.Title>{editMode.key ? 'Actualizar Tarjeta' : 'Agregar Tarjeta'}</Modal.Title>
+          <Modal.Title>{editar ? 'Editar Tarjeta' : 'Agregar Tarjeta'}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
-            <Form.Group controlId="formCardNumber">
-              <Form.Label>Número de tarjeta</Form.Label>
+            <Form.Group className="mb-3" controlId="formNumero">
+              <Form.Label>Número de Tarjeta</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Número de tarjeta"
-                value={newCard.numero}
-                onChange={(e) => setNewCard({ ...newCard, numero: e.target.value })}
+                placeholder="Número de la tarjeta"
+                value={numero}
+                onChange={(e) => setNumero(e.target.value)}
               />
             </Form.Group>
-            <Form.Group controlId="formCardName">
-              <Form.Label>Nombre del titular</Form.Label>
+
+            <Form.Group className="mb-3" controlId="formNombre">
+              <Form.Label>Nombre en la Tarjeta</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Nombre del titular"
-                value={newCard.nombre}
-                onChange={(e) => setNewCard({ ...newCard, nombre: e.target.value })}
+                placeholder="Nombre en la tarjeta"
+                value={nombre}
+                onChange={(e) => setNombre(e.target.value)}
               />
             </Form.Group>
-            <Form.Group controlId="formCardExpiry">
-              <Form.Label>Fecha de vencimiento</Form.Label>
+
+            <Form.Group className="mb-3" controlId="formFechaVencimiento">
+              <Form.Label>Fecha de Vencimiento</Form.Label>
               <Form.Control
                 type="date"
-                value={newCard.fechaVencimiento}
-                onChange={(e) => setNewCard({ ...newCard, fechaVencimiento: e.target.value })}
+                value={fechaVencimiento}
+                onChange={(e) => setFechaVencimiento(e.target.value)}
               />
             </Form.Group>
-            <Form.Group controlId="formCardCVV">
-              <Form.Label>Código de seguridad</Form.Label>
+
+            <Form.Group className="mb-3" controlId="formCodigoSeguridad">
+              <Form.Label>Código de Seguridad (CVV)</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Código de seguridad"
-                value={newCard.codigoSeguridad}
-                onChange={(e) => setNewCard({ ...newCard, codigoSeguridad: e.target.value })}
+                placeholder="CVV"
+                value={codigoSeguridad}
+                onChange={(e) => setCodigoSeguridad(e.target.value)}
               />
             </Form.Group>
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>
+          <Button variant="secondary" onClick={closeModal}>
             Cancelar
           </Button>
-          <Button
-            variant="primary"
-            onClick={editMode.key ? handleUpdate : handleAddCard}
-          >
-            {editMode.key ? 'Actualizar Tarjeta' : 'Agregar Tarjeta'}
+          <Button variant="primary" onClick={editar ? updateCard : addCard}>
+            {editar ? 'Actualizar Tarjeta' : 'Agregar Tarjeta'}
           </Button>
         </Modal.Footer>
       </Modal>
     </div>
   );
-};
+}
 
-export default CreditCardTable;
+export default CreditCardManagement;

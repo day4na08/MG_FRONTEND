@@ -32,7 +32,7 @@ const CheckoutForm = ({ onPurchaseComplete }) => {
                         nombre: user.username,
                         email: user.email,
                         telefono: user.telefonos?.telefono1 || '',
-                        direccion: user.direcciones?.direccion1 || '',
+                        direccion: '',
                         ciudad: '',
                         codigoPostal: '',
                         tarjeta: user.tarjetasDeCredito?.tarjeta1?.numero || '',
