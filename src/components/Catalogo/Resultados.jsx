@@ -10,7 +10,7 @@ function Resultados({ filtros }) {
   useEffect(() => {
     const fetchProductos = async () => {
       try {
-        const response = await axios.get('https://mgbackend-production.up.railway.app/llamarProductos');
+        const response = await axios.get('https://mgbackend-production.up.railway.app/Catalogo');
         const productosFiltrados = response.data.filter(producto => {
           const cumpleCategoria = !filtros.categoria || producto.categoria === filtros.categoria;
           const cumpleEstilo = !filtros.estilo || producto.estilo === filtros.estilo;
