@@ -10,12 +10,13 @@ function CreditCardManagement() {
   const userId = cookies.get('id');
   const [numero, setNumero] = useState('');
   const [nombre, setNombre] = useState('');
+  const [estado, setEstado] = useState('inactiva');
   const [fechaVencimiento, setFechaVencimiento] = useState('');
   const [codigoSeguridad, setCodigoSeguridad] = useState('');
   const [creditCards, setCreditCards] = useState([]);
   const [editar, setEditar] = useState(false);
   const [id, setId] = useState('');
-  const [showModal, setShowModal] = useState(false); // Controla la visibilidad del modal
+  const [showModal, setShowModal] = useState(false);
   const noti = withReactContent(Swal);
 
   const getCards = () => {
@@ -25,12 +26,13 @@ function CreditCardManagement() {
   };
 
   const addCard = () => {
-    Axios.post('https://mgbackend-production.up.railway.app/createCreditCard', {
+    Axios.post('http://localhost:5001/createCreditCard', {
       numero: numero,
       nombre: nombre,
       fecha_vencimiento: fechaVencimiento,
       codigo_seguridad: codigoSeguridad,
       user_id: userId,
+      estado:estado,
     }).then(() => {
       noti.fire('¡Tarjeta añadida!', 'La tarjeta fue registrada con éxito.', 'success');
       getCards();
@@ -39,12 +41,13 @@ function CreditCardManagement() {
   };
 
   const updateCard = () => {
-    Axios.put(`https://mgbackend-production.up.railway.app/updateCreditCard`, {
+    Axios.put('http://localhost:5001/updateCreditCard', {
       id: id,
       numero: numero,
       nombre: nombre,
       fecha_vencimiento: fechaVencimiento,
       codigo_seguridad: codigoSeguridad,
+      estado:estado
     }).then(() => {
       noti.fire('¡Actualizado!', 'Los datos de la tarjeta se actualizaron correctamente.', 'success');
       getCards();
@@ -70,6 +73,17 @@ function CreditCardManagement() {
     });
   };
 
+  const setCardActive = (phoneId) => {
+    Axios.put('http://localhost:5001/updateCardStatus', {
+      user_id: userId,
+      card_id: phoneId,
+    }).then(() => {
+      noti.fire('¡Teléfono activado!', 'El teléfono ahora está activo.', 'success');
+      getCards();
+    }).catch((error) => {
+      console.error('Error al actualizar el estado del teléfono:', error);
+    });
+  };
   const openModal = (card = null) => {
     if (card) {
       setEditar(true);
@@ -99,10 +113,10 @@ function CreditCardManagement() {
 
   return (
     <div className="container">
-          <h5>Tarjetas de Crédito</h5>
-          <Button variant="success" onClick={() => openModal()}>
-            Agregar Tarjeta
-          </Button>
+      <h5>Tarjetas de Crédito</h5>
+      <Button variant="success" onClick={() => openModal()}>
+        Agregar Tarjeta
+      </Button>
       <table className="table mt-4">
         <thead>
           <tr>
@@ -110,6 +124,7 @@ function CreditCardManagement() {
             <th>Número</th>
             <th>Nombre</th>
             <th>Fecha de Vencimiento</th>
+            <th>Estado</th>
             <th>Acciones</th>
           </tr>
         </thead>
@@ -121,6 +136,18 @@ function CreditCardManagement() {
               <td>{card.nombre}</td>
               <td>{card.fecha_vencimiento}</td>
               <td>
+                <Button 
+                  variant={card.estado === 'activa' ? 'success' : 'secondary'} 
+                  onClick={() => setCardActive(card.id, card.estado)}>
+                  {card.estado === 'inactiva' ? 'inactiva' : 'Activa'}
+                </Button>
+              </td>
+              <td>
+              {card.estado === 'inactivo' && (
+                  <Button variant="success" className="me-2" onClick={() => setCardActive(card.id)}>
+                    Activar
+                  </Button>
+                )}
                 <Button variant="warning" className="me-2" onClick={() => openModal(card)}>
                   Editar
                 </Button>
