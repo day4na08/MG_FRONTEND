@@ -16,7 +16,7 @@ function Filtros({ filtros, setFiltros }) {
 
   return (
     <div className="filtros-container">
-      <h3>Filtros de Búsqueda :c</h3>
+      <h3>Filtros</h3>
 
       <label>
         <span>Categoría: </span>
