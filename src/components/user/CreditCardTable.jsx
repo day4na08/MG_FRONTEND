@@ -26,7 +26,7 @@ function CreditCardManagement() {
   };
 
   const addCard = () => {
-    Axios.post('http://localhost:5001/createCreditCard', {
+    Axios.post('https://mgbackend-production.up.railway.app/createCreditCard', {
       numero: numero,
       nombre: nombre,
       fecha_vencimiento: fechaVencimiento,
@@ -41,7 +41,7 @@ function CreditCardManagement() {
   };
 
   const updateCard = () => {
-    Axios.put('http://localhost:5001/updateCreditCard', {
+    Axios.put('https://mgbackend-production.up.railway.app/updateCreditCard', {
       id: id,
       numero: numero,
       nombre: nombre,
@@ -74,7 +74,7 @@ function CreditCardManagement() {
   };
 
   const setCardActive = (phoneId) => {
-    Axios.put('http://localhost:5001/updateCardStatus', {
+    Axios.put('https://mgbackend-production.up.railway.app/updateCardStatus', {
       user_id: userId,
       card_id: phoneId,
     }).then(() => {
