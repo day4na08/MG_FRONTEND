@@ -9,6 +9,8 @@ import UserManagement from '../components/admin/UserManagement';
 import Cookies from 'universal-cookie';
 import Ventas from '../components/user/Ventas';
 import Compras from '../components/user/Compras';
+import AccountSettings from './AccountSettings';
+import Footer from '../components/Footer';
 
 
 const cookies = new Cookies();
@@ -43,8 +45,10 @@ const AdminPage = () => {
         return <Compras />;
       case 'products':
         return <ProductCrud />;
+      case 'settings':
+        return <AccountSettings />;
       default:
-        return <ProductCrud />;
+        return <UserProfile />;
     }
   };
 
@@ -64,12 +68,14 @@ const AdminPage = () => {
             <li onClick={() => setActiveTab('compras')}>Historial de Compras</li>
             <li onClick={() => setActiveTab('ventas')}>Historial de ventas</li>
             <li onClick={() => setActiveTab('products')}>Sus Productos</li>
+            <li onClick={() => setActiveTab('settings')}>Configuración</li>
+
 
           </ul>
         </div>
         <div className="content">{renderContent()}</div>
-      </div>
-      
+      </div> 
+      <Footer/>
     </div>
 
    

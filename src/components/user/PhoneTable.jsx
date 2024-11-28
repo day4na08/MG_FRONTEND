@@ -10,6 +10,7 @@ const PhoneTable = () => {
   const userId = cookies.get('id');
   const [phone, setPhone] = useState('');
   const [phones, setPhones] = useState([]);
+  const [estado, setEstado] = useState('inactivo') 
   const [editingPhone, setEditingPhone] = useState(false);
   const [id, setId] = useState('');
   const [showModal, setShowModal] = useState(false); // Controla la visibilidad del modal
@@ -27,6 +28,7 @@ const PhoneTable = () => {
     Axios.post('https://mgbackend-production.up.railway.app/createphone', {
       user_id: userId,
       telefono: phone,
+      estado: estado
     }).then(() => {
       noti.fire('¡Teléfono añadido!', 'El número fue registrado con éxito.', 'success');
       getPhones();
@@ -39,6 +41,7 @@ const PhoneTable = () => {
     Axios.put('https://mgbackend-production.up.railway.app/updatephone', {
       id,
       telefono: phone,
+      estado: estado
     }).then(() => {
       noti.fire('¡Actualizado!', 'El número de teléfono se actualizó correctamente.', 'success');
       getPhones();
@@ -62,6 +65,19 @@ const PhoneTable = () => {
           getPhones();
         });
       }
+    });
+  };
+
+  // Set phone as active
+  const setPhoneActive = (phoneId) => {
+    Axios.put('https://mgbackend-production.up.railway.app/updatePhoneStatus', {
+      user_id: userId,
+      phone_id: phoneId,
+    }).then(() => {
+      noti.fire('¡Teléfono activado!', 'El teléfono ahora está activo.', 'success');
+      getPhones();
+    }).catch((error) => {
+      console.error('Error al actualizar el estado del teléfono:', error);
     });
   };
 
@@ -93,23 +109,38 @@ const PhoneTable = () => {
 
   return (
     <div className="container">
-          <Button variant="success" onClick={() => openModal()}>
-            Agregar Teléfono
-          </Button>
+      <Button variant="success" onClick={() => openModal()}>
+        Agregar Teléfono
+      </Button>
       <table className="table mt-4">
         <thead>
           <tr>
             <th>#</th>
             <th>Teléfono</th>
+            <th>Estado</th>
             <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
           {phones.map((phone, index) => (
-            <tr key={phone.id}>
-              <td>{index + 1}</td>
-              <td>{phone.telefono}</td>
-              <td>
+            <tr
+              key={phone.id}
+            >
+              <td 
+              className={phone.estado === 'activo' ? 'bg-light' : 'inactivo' ? 'bg-secondary text-white':''}
+              >{index + 1}</td>
+              <td
+              className={phone.estado === 'activo' ? 'bg-light' : 'inactivo' ? 'bg-secondary text-white':''}
+              >{phone.telefono}</td>
+              <td
+              className={phone.estado === 'activo' ? 'bg-light' : 'inactivo' ? 'bg-secondary text-white':''}
+              >{phone.estado}</td>
+              <td className={phone.estado === 'activo' ? 'bg-light' : 'inactivo' ? 'bg-secondary text-white':''} >
+                {phone.estado === 'inactivo' && (
+                  <Button variant="success" className="me-2" onClick={() => setPhoneActive(phone.id)}>
+                    Activar
+                  </Button>
+                )}
                 <Button variant="warning" className="me-2" onClick={() => openModal(phone)}>
                   Editar
                 </Button>

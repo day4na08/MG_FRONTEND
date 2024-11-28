@@ -28,6 +28,7 @@
     "sweetalert2-react-content": "^5.0.7",
     "universal-cookie": "^7.2.0",
     "web-vitals": "^2.1.4",
+    "webpack-dev-server": "^5.1.0",
     "which": "^5.0.0"
   },
   "scripts": {
@@ -36,7 +37,6 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "dev": "node ./Backend/db/auth.js"
-
   },
   "eslintConfig": {
     "extends": [

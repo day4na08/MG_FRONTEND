@@ -6,6 +6,9 @@ import '../css/UserPage.css';
 import NavBar from '../components/Navbar';
 import Cookies from 'universal-cookie';
 import Compras from '../components/user/Compras';
+import AccountSettings from './AccountSettings';
+import Footer from '../components/Footer';
+
 
 const cookies = new Cookies();
 
@@ -32,6 +35,8 @@ const UserPage = () => {
         return <CreditCardTable />;
         case 'compras':
           return <Compras />;
+          case 'settings':
+            return <AccountSettings />;
       default:
         return <UserProfile />;
     }
@@ -50,10 +55,13 @@ const UserPage = () => {
             <li onClick={() => setActiveTab('info')}>Tu Información</li>
             <li onClick={() => setActiveTab('cards')}>Tus Tarjetas</li>
             <li onClick={() => setActiveTab('compras')}>Historial de Compras</li>
+            <li onClick={() => setActiveTab('settings')}>Configuración</li>
+
           </ul>
         </div>
         <div className="content">{renderContent()}</div>
       </div>
+      <Footer/>
     </div>
   );
 };
