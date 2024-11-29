@@ -14,7 +14,7 @@ function Restablecer() {
     setMessage('');
 
     try {
-      const response = await fetch('https://mgbackend-production.up.railway.app/api/password/reset', {
+      const response = await fetch('http://localhost:5001/passwordReset', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

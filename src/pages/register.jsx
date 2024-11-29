@@ -207,7 +207,7 @@ class Register extends Component {
                                     required
                                 />
                                 <label htmlFor="terms" className="form-check-label">
-                                    Acepto los <a href="/terms" target="_blank" rel="noopener noreferrer">términos y condiciones</a>
+                                    Acepto los <a href="/Terms" target="_blank" rel="noopener noreferrer">términos y condiciones</a>
                                 </label>
                             </div>
                             {this.state.error && <p className="text-danger">{this.state.error}</p>}

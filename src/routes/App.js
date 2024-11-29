@@ -47,7 +47,7 @@ function App() {
         <Route path="/Ubicanos" element={<Ubicanos />} />
         <Route path="/Restablecer" element={<Restablecer />} />
         <Route path="/reset-password/:token" element={<RestablecerContraseña />} />
-        <Route path="/TermsAndConditions" element={<TermsAndConditions />} />
+        <Route path="/Terms" element={<TermsAndConditions />} />
       </Routes>
     </Router>
     </CartProvider>
