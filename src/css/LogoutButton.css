@@ -1,5 +1,4 @@
 .logout-button {
-    background-color: #f44336; /* Rojo para indicar cierre de sesión */
     color: white;
     border: none;
     padding: 10px 20px;
@@ -10,9 +9,10 @@
     margin: 4px 2px;
     cursor: pointer;
     border-radius: 4px;
+    background-color: rgb(175, 46, 46);
   }
   
   .logout-button:hover {
-    background-color: #d32f2f;
+    cursor: pointer;
   }
   

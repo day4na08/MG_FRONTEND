@@ -4,7 +4,7 @@ body {
   background-color: #f8f9fa;
   margin: 0;
   padding: 0;
-  color: #333;
+  color: #1f1e1e;
 }
 
 /* Main container */
@@ -15,7 +15,7 @@ body {
 
 /* Sidebar */
 .sidebarpg {
-  background-color: #2f3542;
+  background-color: #313131;
   color: #ffffff;
   width: 300px;
   padding: 10px 50px;
@@ -37,8 +37,9 @@ body {
 }
 
 .sidebarpg ul li:hover {
-  background-color: #1557ca;
+  background-color: #5a5a5a;
   transform: scale(1.02);
+  color:#f8f9fa;
 }
 
 .sidebarpg ul li.active {

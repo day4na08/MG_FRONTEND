@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PhoneTable from './user/PhoneTable';
+import LogoutButton from '../components/user/LogoutButton'
 
 function UserProfile() {
   const [userData, setUserData] = useState(null);
@@ -51,7 +52,8 @@ function UserProfile() {
 
   return (
     <div className="container user-profile my-5">
-      <h1 className="text-center mb-4">¡Bienvenido, {userData.username}!</h1>
+
+      <h1 className="text-center mb-4">¡Bienvenido, {userData.username}!</h1>         
       <div className="row mb-5">
         <div className="col-md-6">
           <p className="fs-4"><strong>Nombre de Usuario:</strong> {userData.username}</p>
@@ -60,13 +62,21 @@ function UserProfile() {
         <div className="col-md-6">
           <p className="fs-4"><strong>Email:</strong> {userData.email}</p>
         </div>
+
+
+        {/* Opción 2: Botón alineado a la derecha */}
+        <div className="col-md-0 text-end">
+          <p className="fs-2">
+            <LogoutButton />
+          </p>
+        </div>
       </div>
       <hr className="my-4" />
       <div>
         <h2 className="mb-4">Actualice sus números de contacto</h2>
         <PhoneTable />
       </div>
-    </div>
+    </div>    
   );
 }
 

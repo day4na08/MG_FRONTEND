@@ -4,7 +4,7 @@ function Footer() {
   // Estilos en el mismo archivo
   const styles = {
     footerContainer: {
-      backgroundColor: '#2c3e50',
+      backgroundColor: '#333437',
       color: '#fff',
       padding: '40px 20px',
       display: 'flex',

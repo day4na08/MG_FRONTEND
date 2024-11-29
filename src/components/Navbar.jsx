@@ -7,7 +7,6 @@ import MinNav from './minNav';
 import '../css/Navbar.css';
 import AccountDropdown from './user/AccountDropdown';
 import { CartContext } from './CartContext'; // Asegúrate de que esta ruta sea correcta
-import LogoutButton from './user/LogoutButton';
 
 const cookies = new Cookies();
 
@@ -251,13 +250,6 @@ const NavBar = () => {
                     <div className="bottom-cotent">
                         <ul className="lists">
                             <li className="list">
-                                <Link to="/AccountSettings" className="nav-link">
-                                    <i className='bx bx-cog icon'></i>
-                                    <span className="link">Configuraciones</span>
-                                </Link>
-                            </li>
-                            <li className="list">
-                              <LogoutButton/>
                           </li>
                         </ul>
                     </div>

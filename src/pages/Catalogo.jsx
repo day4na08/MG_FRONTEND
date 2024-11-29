@@ -3,6 +3,7 @@ import Filtros from '../components/Catalogo/Filtros';
 import NavBar from '../components/Navbar';
 import Footer from '../components/Footer';
 import Resultados from '../components/Catalogo/Resultados';
+import { Carousel } from 'react-bootstrap'; // Importar el componente Carousel de Bootstrap
 
 const Catalog = () => {
     const [filtros, setFiltros] = useState({
@@ -21,10 +22,47 @@ const Catalog = () => {
         <div>
             <NavBar />
             <div className="catalog">
-                <h1>Catálogo de Muebles</h1>
-                <hr/>
+                <h1>Catálogo de MegaMuebles</h1>
+                <hr />
+                {/* Carrusel de imágenes antes de los filtros */}
+                <div className="carousel-container">
+                    <Carousel>
+                        <Carousel.Item>
+                            <img
+                                className="d-block w-100"
+                                src="https://i.ibb.co/7rsD97G/Mueble-Amarillo.jpg"
+                                alt="Imagen 1"
+                            />
+                            <Carousel.Caption>
+                                <h3>Imagen 1</h3>
+                                <p>Descripción de la imagen 1</p>
+                            </Carousel.Caption>
+                        </Carousel.Item>
+                        <Carousel.Item>
+                            <img
+                                className="d-block w-100"
+                                src="https://i.ibb.co/k9qQHQL/2Mueble.jpg"
+                                alt="Imagen 2"
+                            />
+                            <Carousel.Caption>
+                                <h3>Imagen 2</h3>
+                                <p>Descripción de la imagen 2</p>
+                            </Carousel.Caption>
+                        </Carousel.Item>
+                        <Carousel.Item>
+                            <img
+                                className="d-block w-100"
+                                src="https://i.ibb.co/WvKMZWC/azul.jpg"
+                                alt="Imagen 3"
+                            />
+                            <Carousel.Caption>
+                                <h3>Imagen 3</h3>
+                                <p>Descripción de la imagen 3</p>
+                            </Carousel.Caption>
+                        </Carousel.Item>
+                    </Carousel>
+                </div>
                 <div className="catalogo-container">
-
                     <div className="filterPM">
                         <Filtros filtros={filtros} setFiltros={setFiltros} />
                     </div>
@@ -36,73 +74,63 @@ const Catalog = () => {
             <Footer />
 
             <style jsx>{`
-    .catalog {
-        margin-top: 5pc;
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-        padding: 0 30px;
-        align-items: center;
-    }
+                .catalog {
+                    margin-top: 3rem;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    padding: 0 20px;
+                }
 
-    hr{
-    color:black;            
-    }
+                hr {
+                    border: 0.5px solid #ccc;
+                    width: 80%;
+                }
 
-    .catalogo-container {
-        display: flex;
-        max-width: 1500px;
-        width: 100%;
-        padding-bottom: 110px;
-    }
+                .carousel-container {
+                    width: 100%;
+                    max-width: 1200px; /* Limitar el ancho máximo */
+                    height: 300px; /* Asegurar que el carrusel sea más aplastado */
+                    margin: 20px auto;
+                    overflow: hidden; /* Evitar que el contenido se desborde */
+                }
 
-    .filterPM {
-        flex: 0 0 220px; /* Más estrecho */
-        padding: 10px;
-        border-radius: 8px;
-        margin-right: 10px;
-    }
+                .carousel-container img {
+                    object-fit: cover; /* Las imágenes llenan el contenedor sin deformarse */
+                    height: 100%; /* Asegura que la imagen cubra toda la altura del contenedor */
+                    object-position: center; /* Centra las imágenes dentro del contenedor */
+                }
 
-    .filterRP {
-        flex: 1;
-        display: flex;
-        flex-wrap: wrap;
-    }
+                .catalogo-container {
+                    display: flex;
+                    justify-content: center;
+                    align-items: flex-start;
+                    max-width: 1200px;
+                    margin: 20px auto;
+                    gap: 20px;
+                }
 
-    /* Inputs de filtro */
-    .filterPM input, .filterPM select {
-        width: 100%;
-        padding: 10px;
-        margin: 10px 0;
-        font-size: 1em;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        background-color: rgba(255, 255, 255, 0.9);
-    }
+                .filterPM {
+                    flex: 0 0 250px;
+                    background-color: #f9f9f9;
+                    border-radius: 8px;
+                    padding: 15px;
+                }
 
-    /* Tarjetas de resultados */
-    .card {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        border: 1px solid #e0e0e0;
-        border-radius: 8px;
-        margin: 15px;
-        padding: 20px;
-        width: 280px;
-        height: 380px;
-    }
+                .filterRP {
+                    flex: 1;
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 20px;
+                }
 
-    h1 {
-        text-align: center;
-        margin: 60px 0;
-        font-family: 'Montserrat', sans-serif;
-        font-weight: 700;
-        font-size: 2.5em;
-        text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2);
-    }
-`}</style>
-
+                h1 {
+                    font-family: 'Montserrat', sans-serif;
+                    font-size: 2rem;
+                    text-align: center;
+                    color: #333;
+                }
+            `}</style>
         </div>
     );
 };

@@ -5,6 +5,11 @@ import '../../css/resultado.css';
 
 function Resultados({ filtros }) {
   const [productos, setProductos] = useState([]);
+  const [productosPagina, setProductosPagina] = useState([]);
+  const [paginaActual, setPaginaActual] = useState(1);
+  const [totalPaginas, setTotalPaginas] = useState(1);
+  const productosPorPagina = 12; // Productos por página
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,7 +28,9 @@ function Resultados({ filtros }) {
 
           return cumpleCategoria && cumpleEstilo && cumpleTela && cumpleAcabado && cumpleColor && cumpleTapizMaterial && cumpleMaterialInterno && cumplePrecio;
         });
+
         setProductos(productosFiltrados);
+        setTotalPaginas(Math.ceil(productosFiltrados.length / productosPorPagina)); // Calcular total de páginas
       } catch (error) {
         console.error('Error fetching products:', error);
       }
@@ -32,15 +39,26 @@ function Resultados({ filtros }) {
     fetchProductos();
   }, [filtros]);
 
+  // Actualiza los productos que se deben mostrar según la página actual
+  useEffect(() => {
+    const indexOfLast = paginaActual * productosPorPagina;
+    const indexOfFirst = indexOfLast - productosPorPagina;
+    setProductosPagina(productos.slice(indexOfFirst, indexOfLast));
+  }, [paginaActual, productos]);
+
   const handleProductoClick = (producto) => {
     navigate(`/ProductDetail/${producto.id}`);
   };
 
+  const handlePageChange = (numeroPagina) => {
+    setPaginaActual(numeroPagina);
+  };
+
   return (
     <div className="resultados-container">
-      <h3>Resultados de la Búsqueda</h3>
+      <hr />
       <div className="resultados-grid">
-        {productos.map(producto => {
+        {productosPagina.map(producto => {
           const imagenPrincipal = producto.imagen1 ? producto.imagen1 : 'default-image-url';
           const precio = typeof producto.precio === 'number' ? producto.precio.toFixed(2) : 'N/A';
           return (
@@ -58,77 +76,38 @@ function Resultados({ filtros }) {
         })}
       </div>
 
-      <style jsx>{`
-        .resultados-container {
-          padding: 20px;
-          text-align: center;
-        }
-
-        .resultados-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-          gap: 20px;
-          margin-top: 20px;
-        }
-
-        .producto-card {
-          background-color: rgba(255, 255, 255, 0.9);
-          border: 1px solid #e0e0e0;
-          border-radius: 10px;
-          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-          transition: transform 0.2s, box-shadow 0.2s;
-          padding: 15px;
-          cursor: pointer;
-          text-align: left;
-        }
-
-        .producto-card:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .producto-image {
-          width: 100%;
-          height: auto;
-          border-radius: 8px;
-        }
-
-        .producto-name {
-          font-size: 1.2em;
-          margin: 10px 0;
-          font-weight: bold;
-        }
-
-        .producto-precio {
-          font-size: 1.1em;
-          color: #333;
-        }
-
-        .masdetll {
-          background-color: #007bff;
-          color: white;
-          border: none;
-          border-radius: 5px;
-          padding: 10px 15px;
-          cursor: pointer;
-          font-size: 1em;
-          margin-top: 10px;
-          transition: background-color 0.3s;
-        }
-
-        .masdetll:hover {
-          background-color: #0056b3;
-        }
-
-        h3 {
-          margin: 20px 0;
-          font-family: 'Montserrat', sans-serif;
-          font-weight: 700;
-          font-size: 1.8em;
-        }
-      `}</style>
+      {/* Paginación al pie */}
+      <div className="pagination-container text-center mt-4">
+        <ul className="pagination" style={{ justifyContent: 'center', backgroundColor: '#f8f9fa' }}>
+          <li className={`page-item ${paginaActual === 1 ? 'disabled' : ''}`}>
+            <button className="page-link" onClick={() => handlePageChange(paginaActual - 1)} style={buttonStyle}>&laquo;</button>
+          </li>
+          {[...Array(totalPaginas)].map((_, index) => (
+            <li key={index} className={`page-item ${paginaActual === index + 1 ? 'active' : ''}`}>
+              <button className="page-link" onClick={() => handlePageChange(index + 1)} style={paginaActual === index + 1 ? activeButtonStyle : buttonStyle}>
+                {index + 1}
+              </button>
+            </li>
+          ))}
+          <li className={`page-item ${paginaActual === totalPaginas ? 'disabled' : ''}`}>
+            <button className="page-link" onClick={() => handlePageChange(paginaActual + 1)} style={buttonStyle}>&raquo;</button>
+          </li>
+        </ul>
+      </div>
     </div>
   );
 }
+
+const buttonStyle = {
+  backgroundColor: '#f0f0f0', // Gris claro
+  color: '#555555', // Gris oscuro
+  border: 'none', // Sin bordes
+  boxShadow: 'none', // Sin sombras
+};
+
+const activeButtonStyle = {
+  ...buttonStyle,
+  backgroundColor: '#d6d6d6', // Gris más oscuro para el botón activo
+};
 
 export default Resultados;

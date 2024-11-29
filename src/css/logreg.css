@@ -1,152 +1,130 @@
-/* General */
-.n {
-    font-family: Arial, sans-serif;
-    background-color: #f0f8ff; /* Color de fondo suave */
-    display: flex;
-    justify-content: center;
-    align-items: center; /* Centrar verticalmente */
-    min-height: 100vh; /* Asegura que ocupe toda la altura de la ventana */
-    padding: 20px;
-    box-sizing: border-box; /* Asegura que el padding no afecte el ancho */
-}
-
-/* Contenedor del formulario */
+/* Estilos Generales para los Formularios */
 .form-container {
-    background-color: #ffffff;
-    padding: 40px; /* Espacio interior */
-    border-radius: 12px; /* Bordes redondeados */
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
-    width: 100%; /* Ancho del contenedor se adapta */
-    max-width: 450px; /* Ancho máximo aumentado a 450px */
-    text-align: center; /* Centrar contenido */
-    transition: transform 0.3s; /* Efecto al pasar el mouse */
-}
-
-.form-container:hover {
-    transform: translateY(-5px); /* Levanta el contenedor al pasar el mouse */
-}
-
-/* Logo */
-.logo {
-    display: block;
-    margin: 0 auto 20px; /* Centra la imagen */
-    max-width: 70%; /* Aumentar el tamaño de la imagen */
-    height: auto; /* Mantiene la proporción de la imagen */
-}
-
-/* Títulos */
-h2 {
-    margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 380px;
+    margin: 0 auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  h2 {
+    text-align: center;
     color: #333;
-    font-size: 28px; /* Aumenta el tamaño de la fuente */
-    font-weight: 700; /* Grosor de la fuente */
-}
-
-/* Grupos de entrada */
-
-.input-group {
-    margin-bottom: 20px; /* Mayor separación entre grupos */
-}
-
-.input-group label {
+    margin-bottom: 20px;
+  }
+  
+  .input-group {
+    margin-bottom: 15px;
+  }
+  
+  .input-group label {
     display: block;
-    font-weight: 600;
-    margin-bottom: 8px;
-    color: #555; /* Color más suave */
-}
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 5px;
+  }
+  
+  .input-group input {
 
-.input-group input {
-    width: 100%;
-    border-radius: 10px 1;
-    padding: 14px; /* Aumenta el padding */
-    border: 2px solid #007bff; /* Bordes más gruesos y coloridos */ /* Bordes redondeados */
-    box-sizing: border-box; /* Asegura que el padding no afecte el ancho */
-    transition: border-color 0.3s; /* Transición suave */
-}
-
-.input-group input:focus {
-    border-color: #0056b3; /* Color del borde al enfocar */
-    outline: none; /* Quita el contorno por defecto */
-}
-
-/* Botón */
-
-/* Estilos para el contenedor del botón */
-.btn-enter {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box; /* Asegura que el padding no afecte al ancho */
+    
+  }
+  
+  .input-group input:focus {
+    border-color: #2e3b84;
+    outline: none;
+  }
+  
+  input.invalid {
+    border-color: #e74c3c;
+  }
+  
+  input.valid {
+    border-color: #334472;
+  }
+  
+  .error {
+    color: #e74c3c;
+    font-size: 12px;
+    margin-top: 5px;
+  }
+  
+  .eye-button {
+    background: none;
+    border: none;
+    color: #333;
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: 35px;
+  }
+  
+  .btn-enter {
     display: flex;
     justify-content: center;
-    margin-top: 20px; /* Separación adicional arriba */
-    margin-bottom: 20px;
-}
-
-/* Estilos para el botón */
-.btn-enter .btn {
-    color: #ffffff; /* Color de la fuente blanco */
-    background-color: #0056b3; /* Color de fondo azul */
-    border: none; /* Sin borde por defecto */
-    border-radius: 8px; /* Bordes redondeados */
-    padding: 12px 24px; /* Espaciado del botón */
-    font-weight: 600;
+    margin-top: 20px;
+  }
+  
+  .btnLR, .btnlr {
+    padding: 10px 20px;
+    background-color: #275e8e;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
     cursor: pointer;
-    font-size: 18px;
-    transition: background-color 0.3s, color 0.3s; /* Transiciones suaves */
-}
-
-/* Estilos para el hover del botón */
-.btn-enter .btn:hover {
-    background-color: #ffffff; /* Cambia el fondo a blanco al hacer hover */
-    color: #333; /* Cambia el color del texto a gris al hacer hover */
-    border: 2px solid #007bff; /* Añade un borde azul al hacer hover */
-    outline: none;
-}
-
-/* Mensajes de error */
-.error {
-    color: red; /* Color del mensaje de error */
-    margin-top: 10px; /* Espacio superior */
-    font-weight: bold; /* Aumenta el grosor de la fuente */
-}
-
-/* Texto y enlaces */
-p {
-    margin-top: 15px;
-    color: #666;
-}
-
-p a {
-    color: #007bff; /* Color del enlace */
+    width: 100%;
+    transition: background-color 0.3s;
+  }
+  
+  .btnLR:hover, .btnlr:hover {
+    background-color: #134263;
+    color: #ffffff;
+  }
+  
+  .terms {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .terms input {
+    margin-right: 10px;
+  }
+  
+  .terms label {
+    font-size: 14px;
+  }
+  
+  a {
+    
+    color: #4c8baf;
     text-decoration: none;
-    font-weight: bold; /* Negrita en el enlace */
-}
-
-p a:hover {
-    text-decoration: underline; /* Subrayar al pasar el mouse */
-}
-
-/* Términos */
-.terms {
-    font-weight: 600;
-    margin-bottom: 8px;
-    color: #555; /* Tamaño de fuente más pequeño */
-    color: #777; /* Color más suave */
-}
-.terms input {
-    font-size: 1.5rem;
-    margin-right: 15px;
-}
-/* Contenedor de contraseña */
-.eye-button {
-    position: absolute;
-    right: 0px; /* Ajusta para centrar mejor el icono */
-    top: 40%; 
-    background: transparent;
-    cursor: pointer;
-    outline: none;
-    color: #aaa; /* Color del ícono */
-    font-size: 1.3em; /* Tamaño del ícono */
-    transition: color 0.3s;
-}
-
-.eye-button:hover {
-    color: #333; /* Color al pasar el mouse */
-}
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  .logo {
+    display: block;
+    margin: 0 auto 20px;
+    max-width: 120px;
+  }
+  
+  /* Estilo para la vista en móvil */
+  @media (max-width: 480px) {
+    .form-container {
+      padding: 15px;
+    }
+  
+    .btn, .btnlr {
+      font-size: 14px;
+    }
+  }
+  

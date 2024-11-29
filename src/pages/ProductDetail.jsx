@@ -15,13 +15,15 @@ const ProductDetail = () => {
   const [cantidad, setCantidad] = useState(1);
   const [activeSection, setActiveSection] = useState('descripcion');
   const [selectedImage, setSelectedImage] = useState('');
+  const [is3DSelected, setIs3DSelected] = useState(false);
+  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false); // Nuevo estado
 
   useEffect(() => {
     const fetchProducto = async () => {
       try {
         const response = await Axios.get(`https://mgbackend-production.up.railway.app/llamarProducto/${id}`);
         setProducto(response.data);
-        setSelectedImage(response.data.imagen1 || '');
+        setSelectedImage(response.data.imagen1 || ''); // Si no hay imagen1, no se selecciona ninguna imagen
       } catch (error) {
         console.error('Error fetching product details:', error);
         setError('Failed to load product details. Please try again later.');
@@ -48,63 +50,94 @@ const ProductDetail = () => {
 
   const showSection = (sectionId) => setActiveSection(sectionId);
 
+  const handle3DClick = () => {
+    setIs3DSelected(!is3DSelected); // Alternar el estado del 3D
+    setSelectedImage(''); // Limpiar imagen seleccionada cuando el usuario elige 3D
+  };
+
+  const toggleDescription = () => {
+    setIsDescriptionExpanded(!isDescriptionExpanded); // Alternar la visibilidad de la descripción
+  };
+
   return (
     <>
       <NavBar />
-      <div className="container mt-5">
+      <hr style={{ padding: '10px', marginTop:'4pc' }}/>
+      <div className="container mt-5 mb-5"> {/* Aumenta el margen inferior para separar del footer */}
         <div className="row">
           {/* Image and Thumbnails */}
-          <div className="col-md-6">
-            <div className="product-image">
-              {selectedImage ? (
-                <img
-                  src={selectedImage}
-                  alt={producto.name}
-                  className="img-fluid"
-                />
-              ) : (
-                <iframe
-                  title="Modelo Sketchfab"
-                  width="100%"
-                  height="480"
-                  src={`https://sketchfab.com/models/${producto.imagen3D}/embed`}
-                  frameBorder="0"
-                  allow="autoplay; fullscreen; vr"
-                  allowFullScreen
-                ></iframe>
-              )}
-            </div>
-            <div className="mt-2 d-flex">
+          <div className="col-md-6 d-flex">
+            {/* Thumbnails */}
+            <div className="d-flex flex-column me-2">
               {[producto.imagen1, producto.imagen2, producto.imagen3, producto.imagen4]
-                .filter(img => img)
+                .filter(img => img) // Solo mostrar imágenes válidas
                 .map((img, index) => (
                   <img
                     key={index}
                     src={img}
                     alt={`Thumbnail ${index + 1}`}
-                    className="img-thumbnail me-2"
-                    style={{ width: '100px', cursor: 'pointer' }}
+                    className="img-thumbnail mb-2"
+                    style={{
+                      width: '100px',
+                      height: '100px',
+                      objectFit: 'cover',
+                      cursor: 'pointer',
+                    }}
                     onClick={() => setSelectedImage(img)}
                   />
                 ))}
-              <div
-                className="img-thumbnail me-2"
+              {/* Botón 3D */}
+              <button
+                className={`btn ${is3DSelected ? 'btn-warning' : 'btn-outline-secondary'} mb-2`}
                 style={{ width: '100px', cursor: 'pointer' }}
-                onClick={() => setSelectedImage('')}
+                onClick={handle3DClick}
               >
-                <h6>___3D___</h6>
-              </div>
+                <h6>3D</h6>
+              </button>
+            </div>
+
+            {/* Product Image */}
+            <div className="product-image" style={{ width: '100%', maxHeight: '500px', overflow: 'hidden' }}>
+              {is3DSelected && producto.imagen3D ? (
+                <iframe
+                  title="Modelo Sketchfab"
+                  width="100%"
+                  height="500px"
+                  src={`https://sketchfab.com/models/${producto.imagen3D}/embed`}
+                  frameBorder="0"
+                  allow="autoplay; fullscreen; vr"
+                  allowFullScreen
+                ></iframe>
+              ) : (
+                <img
+                  src={selectedImage || producto.imagen1} // Si no se ha seleccionado una imagen, mostrar imagen1
+                  alt={producto.name}
+                  className="img-fluid"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
+              )}
             </div>
           </div>
 
           {/* Product Info and Cart */}
           <div className="col-md-6">
             <h1>{producto.name}</h1>
-            <p>{producto.descripcion}</p>
-            <p><strong>Precio:</strong> ${producto.precio.toFixed(2)}</p>
-            <p><strong>Categoría:</strong> {producto.categoria}</p>
+            {/* Descripción con "ver más/menos" */}
+            <p><i className="bx bx-info-circle"></i> 
+              {isDescriptionExpanded ? producto.descripcion : producto.descripcion.slice(0, 500)} 
+              {producto.descripcion.length > 500 && (
+                <button onClick={toggleDescription} className="btn btn-link p-0">
+                  {isDescriptionExpanded ? 'Ver menos' : 'Ver más'}
+                </button>
+              )}
+            </p>
+            <hr />
+            <p><strong><i className="bx bx-dollar-circle"></i> Precio:</strong> ${producto.precio.toFixed(2)}</p>
+            <p><strong><i className="bx bx-category"></i> Categoría:</strong> {producto.categoria}</p>
             <div className="d-flex align-items-center mb-3">
-              <button className="btn btn-primary me-2" onClick={handleAddToCart}>Agregar al carrito</button>
+              <button className="btnLR me-2" onClick={handleAddToCart}>
+                <i className="bx bx-cart-add"></i> Agregar al carrito
+              </button>
               <div className="input-group" style={{ width: '180px', padding: '10px' }}>
                 <button
                   className="btn btn-outline-secondary"
@@ -125,68 +158,61 @@ const ProductDetail = () => {
             </div>
           </div>
         </div>
-
+        <hr style={{ padding: '10px', marginTop:'7pc' }} />
         {/* Product Details Sections */}
         <div className="my-4">
-          <div className="btn-group" role="group">
-            <button className="btn btn-outline-dark" onClick={() => showSection('descripcion')}>Descripción</button>
-            <button className="btn btn-outline-dark" onClick={() => showSection('garantia')}>Garantía</button>
-            <button className="btn btn-outline-dark" onClick={() => showSection('tips')}>TIPS de Cuidado</button>
+          <div className="btn-group w-100" role="group" style={{ justifyContent: 'center' }}> {/* Centrado de los botones */}
+            <button className="btn btn-outline-dark" onClick={() => showSection('descripcion')}>
+              <i className="bx bx-book-open"></i> Descripción
+            </button>
+            <button className="btn btn-outline-dark" onClick={() => showSection('garantia')}>
+              <i className="bx bx-shield"></i> Garantía
+            </button>
+            <button className="btn btn-outline-dark" onClick={() => showSection('tips')}>
+              <i className="bx bx-heart"></i> TIPS de Cuidado
+            </button>
           </div>
-
+          <hr />
           <div className="mt-3">
             {activeSection === 'descripcion' && (
               <div>
                 <h3>{producto.name}</h3>
-                <table className="table">
+                <table className="table table-bordered">
                   <thead>
-                    <tr><th>Campo</th><th>Valor</th></tr>
+                    <tr>
+                      <th><i className="bx bx-cog"></i> Campo</th>
+                      <th><i className="bx bx-cogs"></i> Valor</th>
+                    </tr>
                   </thead>
                   <tbody>
-                    <tr><td>Estilo</td><td>{producto.estilo}</td></tr>
-                    <tr><td>Peso Neto</td><td>{producto.pesoNeto}</td></tr>
-                    <tr><td>Material</td><td>{producto.material}</td></tr>
-                    <tr><td>Color</td><td>{producto.color}</td></tr>
-                    <tr><td>Requiere Armado</td><td>{producto.requiereArmado}</td></tr>
-                    <tr><td>Alto</td><td>{producto.alto}</td></tr>
-                    <tr><td>Ancho</td><td>{producto.ancho}</td></tr>
-                    <tr><td>Profundidad</td><td>{producto.profundidad}</td></tr>
-                    <tr><td>Material del tapiz</td><td>{producto.tapizMaterial}</td></tr>
+                    <tr><td><i className="bx bx-pencil"></i> Estilo</td><td>{producto.estilo}</td></tr>
+                    <tr><td><i className="bx bx-weight"></i> Peso Neto</td><td>{producto.pesoNeto}</td></tr>
+                    <tr><td><i className="bx bx-palette"></i> Material</td><td>{producto.material}</td></tr>
+                    <tr><td><i className="bx bx-paint"></i> Color</td><td>{producto.color}</td></tr>
+                    <tr><td><i className="bx bx-ruler"></i> Medidas</td><td>{producto.alto}x{producto.ancho}x{producto.profundidad} cm</td></tr>
+                    <tr><td><i className="bx bx-cube"></i> Requiere armado</td><td>{producto.requiereArmado ? 'Sí' : 'No'}</td></tr>
                   </tbody>
                 </table>
               </div>
             )}
             {activeSection === 'garantia' && (
               <div>
-                <h2>Garantía</h2>
-                <p>La Garantía Estándar de Nuestros Productos es de dos Años.</p>
+                <h4>Garantía</h4>
+                <p>{producto.garantia}</p>
               </div>
             )}
             {activeSection === 'tips' && (
               <div>
-                <h2>TIPS de Cuidado</h2>
-                <p>Mantén tus muebles limpios y libres de polvo.</p>
+                <h4>Consejos de Cuidado</h4>
+                <p>{producto.tipsCuidado}</p>
               </div>
             )}
           </div>
         </div>
-
-        {/* Uncomment for Similar Products Section
-        <h2>Productos Similares</h2>
-        <div className="row">
-          {productosSimilares.map((simil, index) => (
-            <div key={index} className="col-md-4 mb-4">
-              <div className="card">
-                <img src={simil.imagen1} className="card-img-top" alt={simil.name} />
-                <div className="card-body">
-                  <h5 className="card-title">{simil.name}</h5>
-                  <p className="card-text">Precio: ${simil.precio.toFixed(2)}</p>
-                  <Link to={`/product/${simil.id}`} className="btn btn-primary">Ver Detalles</Link>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div> */}
+                  {/* Product Link */}
+  <Link to="/Catalog" className="btn btn-outline-dark" style={{ padding: '10px', marginBottom:'7pc' }}>
+    <i className="bx bx-chevron-left"></i> Ver más productos
+  </Link >
       </div>
       <Footer />
     </>

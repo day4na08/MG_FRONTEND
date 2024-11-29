@@ -53,7 +53,7 @@ const LogoutButton = () => {
       boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
       textAlign: 'center',
     },
-    confirmButton: {
+    confirmButton2: {
       margin: '5px',
       padding: '10px 20px',
       border: 'none',
@@ -62,7 +62,7 @@ const LogoutButton = () => {
       backgroundColor: '#0056b3',
       color: 'white',
     },
-    cancelButton: {
+    cancelButton1: {
       margin: '5px',
       padding: '10px 20px',
       border: 'none',
@@ -86,8 +86,8 @@ const LogoutButton = () => {
               <div style={styles.modalContent}>
                 <h2>Confirmar Cierre de Sesión</h2>
                 <p>¿Está seguro de que desea cerrar sesión?</p>
-                <button onClick={handleConfirmLogout} style={styles.confirmButton}>Sí</button>
-                <button onClick={handleCancelLogout} style={styles.cancelButton}>No</button>
+                <button onClick={handleConfirmLogout} style={styles.confirmButton2}>Sí</button>
+                <button onClick={handleCancelLogout} style={styles.cancelButton1}>No</button>
               </div>
             </div>
           )}

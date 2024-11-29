@@ -6,8 +6,8 @@
     justify-content: center;
     z-index: 1; /* Asegura que el contenido sea visible sobre otros elementos */
     height: 40px; /* Ajusta el alto del navbar para una mejor visibilidad */
-    background-color: #142233;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Añade una sombra sutil para mejorar la separación visual */
+    background-color: #323232;
+    box-shadow: 0 2px 4px rgba(132, 27, 27, 0.1); /* Añade una sombra sutil para mejorar la separación visual */
 }
 
 ul.itemsnv2 {

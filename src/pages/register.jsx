@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import axios from 'axios';
-import md5 from 'md5';
 import '../css/logreg.css';
 import Cookies from 'universal-cookie';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import logo from '../images/logo-small.png'; // Asegúrate de que la ruta sea correcta
+import logo from '../images/logo-small.png';
 
-const baseUrl = "https/mgbackend-production.up.railway.app/users";
+const baseUrl = "https://mgbackend-production.up.railway.app/users";
 const cookies = new Cookies();
 
 class Register extends Component {
@@ -20,58 +19,53 @@ class Register extends Component {
             confirmEmail: '',
             password: '',
             confirmPassword: '',
-            role: 'user' 
+            role: 'user',
         },
-        formErrors: {},  // Agregar el manejo de errores si se usa
+        formErrors: {},
         error: '',
         success: false,
-        redirect: null 
-    }
+        redirect: null,
+    };
 
-    handleChange = e => {
+    handleChange = (e) => {
         this.setState({
             form: {
                 ...this.state.form,
-                [e.target.name]: e.target.value
-            }
+                [e.target.name]: e.target.value,
+            },
         });
-    }
+    };
 
     handleSubmit = async (event) => {
         event.preventDefault();
         const { email, confirmEmail, password, confirmPassword } = this.state.form;
-    
+
         if (password.length < 8) {
             this.setState({ error: 'La contraseña debe tener al menos 8 caracteres.' });
             return;
         }
-    
+
         if (password !== confirmPassword) {
             this.setState({ error: 'Las contraseñas no coinciden.' });
             return;
         }
-    
+
         if (email !== confirmEmail) {
             this.setState({ error: 'Los correos electrónicos no coinciden.' });
             return;
         }
-    
+
         try {
             const newUser = {
                 username: this.state.form.username,
                 apellido: this.state.form.apellido,
                 email: this.state.form.email,
-                password: this.state.form.password,  // No hagas md5 aquí, lo hace el backend
-                role: this.state.form.role
+                password: this.state.form.password,
+                role: this.state.form.role,
             };
-    
-            // Solicitud POST al servidor para registrar al usuario
+
             await axios.post('https://mgbackend-production.up.railway.app/register', newUser);
-            
-            // Si todo sale bien, redirigir al login
-            this.setState({ success: true });
-            this.setState({ redirect: '/login' });
-    
+            this.setState({ success: true, redirect: '/login' });
         } catch (error) {
             if (error.response && error.response.status === 400) {
                 this.setState({ error: error.response.data });
@@ -80,7 +74,7 @@ class Register extends Component {
             }
         }
     };
-    
+
     componentDidMount() {
         const role = cookies.get('role');
         if (role) {
@@ -111,10 +105,11 @@ class Register extends Component {
                         <img src={logo} alt="Logo" className="logo" />
                         <h2>Registro</h2>
                         <form onSubmit={this.handleSubmit} autoComplete="off">
-                            <div className="input-group">
-                                <label htmlFor="username">Nombre de usuario</label>
+                            <div className="mb-3">
+                                <label htmlFor="username" className="form-label">Nombre de usuario</label>
                                 <input
                                     type="text"
+                                    className="form-control"
                                     id="username"
                                     name="username"
                                     placeholder="Nombres Completos"
@@ -123,10 +118,11 @@ class Register extends Component {
                                     required
                                 />
                             </div>
-                            <div className="input-group">
-                                <label htmlFor="apellido">Apellidos</label>
+                            <div className="mb-3">
+                                <label htmlFor="apellido" className="form-label">Apellidos</label>
                                 <input
                                     type="text"
+                                    className="form-control"
                                     id="apellido"
                                     name="apellido"
                                     placeholder="Apellidos Completos"
@@ -135,10 +131,11 @@ class Register extends Component {
                                     required
                                 />
                             </div>
-                            <div className="input-group">
-                                <label htmlFor="email">Correo Electrónico</label>
+                            <div className="mb-3">
+                                <label htmlFor="email" className="form-label">Correo Electrónico</label>
                                 <input
                                     type="email"
+                                    className="form-control"
                                     id="email"
                                     name="email"
                                     placeholder="correo@ejemplo.com"
@@ -147,21 +144,25 @@ class Register extends Component {
                                     required
                                 />
                             </div>
-                            <div className="input-group">
-                                <label htmlFor="confirmEmail">Confirmar Correo Electrónico</label>
+                            <div className="mb-3">
+                                <label htmlFor="confirmEmail" className="form-label">Confirmar Correo Electrónico</label>
                                 <input
                                     type="email"
+                                    className="form-control"
                                     id="confirmEmail"
+                                    placeholder="Confirme su correo electronico"
+
                                     name="confirmEmail"
                                     value={this.state.form.confirmEmail}
                                     onChange={this.handleChange}
                                     required
                                 />
                             </div>
-                            <div className="input-group">
-                                <label htmlFor="password">Contraseña</label>
+                            <div className="mb-3 position-relative">
+                                <label htmlFor="password" className="form-label">Contraseña</label>
                                 <input
                                     type={this.state.showPassword ? "text" : "password"}
+                                    className="form-control"
                                     id="password"
                                     name="password"
                                     placeholder="Ingrese su contraseña"
@@ -172,15 +173,16 @@ class Register extends Component {
                                 <button
                                     type="button"
                                     onClick={this.togglePasswordVisibility}
-                                    className="eye-button"
+                                    className="btn btn-link eye-button"
                                 >
                                     <i className={this.state.showPassword ? 'fas fa-eye' : 'fas fa-eye-slash'}></i>
                                 </button>
                             </div>
-                            <div className="input-group">
-                                <label htmlFor="confirmPassword">Verificar Contraseña</label>
+                            <div className="mb-3 position-relative">
+                                <label htmlFor="confirmPassword" className="form-label">Verificar Contraseña</label>
                                 <input
                                     type={this.state.showVerifyPassword ? "text" : "password"}
+                                    className="form-control"
                                     id="confirmPassword"
                                     name="confirmPassword"
                                     placeholder="Repita su contraseña"
@@ -191,25 +193,26 @@ class Register extends Component {
                                 <button
                                     type="button"
                                     onClick={this.toggleVerifyPasswordVisibility}
-                                    className="eye-button"
+                                    className="btn btn-link eye-button"
                                 >
                                     <i className={this.state.showVerifyPassword ? 'fas fa-eye' : 'fas fa-eye-slash'}></i>
                                 </button>
                             </div>
-                            <div className="terms">
+                            <div className="form-check mb-3">
                                 <input
                                     type="checkbox"
+                                    className="form-check-input"
                                     id="terms"
                                     name="terms"
                                     required
                                 />
-                                <label htmlFor="terms">
+                                <label htmlFor="terms" className="form-check-label">
                                     Acepto los <a href="/terms" target="_blank" rel="noopener noreferrer">términos y condiciones</a>
                                 </label>
                             </div>
-                            {this.state.error && <p className="error">{this.state.error}</p>}
+                            {this.state.error && <p className="text-danger">{this.state.error}</p>}
                             <div className="btn-enter">
-                                <button type="submit" className="btnlr">Registrarse</button>
+                                <button type="submit" className="btnLR">Registrarse</button>
                             </div>
                         </form>
                         <p>¿Ya tienes una cuenta? <Link to="/login">Inicia sesión aquí</Link></p>
