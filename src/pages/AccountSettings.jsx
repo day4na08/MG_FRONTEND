@@ -134,7 +134,7 @@ const AccountSettings = () => {
           onChange={(e) => setNewPassword(e.target.value)}
           required
         />
-        <button type="submit">Actualizar Contraseña</button>
+        <button type="submit" >Actualizar Contraseña</button>
       </form>
 
       <p className="message">{message}</p>
