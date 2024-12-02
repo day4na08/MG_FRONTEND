@@ -22,6 +22,7 @@ import SobreNosotros from "../pages/SobreNosotros.jsx";
 import Restablecer from "../pages/Restablecer.jsx";
 import RestablecerContraseña from "../pages/RestablecerContraseña.jsx";
 import TermsAndConditions from "../components/TermsAndConditions";
+import CheckoutForm from "../pages/Checkout.jsx";
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
         <Route path="/Restablecer" element={<Restablecer />} />
         <Route path="/reset-password/:token" element={<RestablecerContraseña />} />
         <Route path="/Terms" element={<TermsAndConditions />} />
+        <Route path="/CheckoutForm" element={<CheckoutForm />} />
       </Routes>
     </Router>
     </CartProvider>

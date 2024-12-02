@@ -26,13 +26,23 @@ function CreditCardManagement() {
   };
 
   const addCard = () => {
+    if (!numero || !nombre || !fechaVencimiento || !codigoSeguridad) {
+      return noti.fire('Error', 'Todos los campos son obligatorios', 'error');
+    }
+
+    // Validar si la tarjeta tiene fecha de vencimiento pasada
+    const expirationMessage = validateExpirationDate(fechaVencimiento);
+    if (expirationMessage) {
+      return noti.fire('Error', expirationMessage, 'error');
+    }
+
     Axios.post('https://mgbackend-production.up.railway.app/createCreditCard', {
       numero: numero,
       nombre: nombre,
       fecha_vencimiento: fechaVencimiento,
       codigo_seguridad: codigoSeguridad,
       user_id: userId,
-      estado:estado,
+      estado: estado,
     }).then(() => {
       noti.fire('¡Tarjeta añadida!', 'La tarjeta fue registrada con éxito.', 'success');
       getCards();
@@ -41,13 +51,23 @@ function CreditCardManagement() {
   };
 
   const updateCard = () => {
+    if (!numero || !nombre || !fechaVencimiento || !codigoSeguridad) {
+      return noti.fire('Error', 'Todos los campos son obligatorios', 'error');
+    }
+
+    // Validar si la tarjeta tiene fecha de vencimiento pasada
+    const expirationMessage = validateExpirationDate(fechaVencimiento);
+    if (expirationMessage) {
+      return noti.fire('Error', expirationMessage, 'error');
+    }
+
     Axios.put('https://mgbackend-production.up.railway.app/updateCreditCard', {
       id: id,
       numero: numero,
       nombre: nombre,
       fecha_vencimiento: fechaVencimiento,
       codigo_seguridad: codigoSeguridad,
-      estado:estado
+      estado: estado,
     }).then(() => {
       noti.fire('¡Actualizado!', 'Los datos de la tarjeta se actualizaron correctamente.', 'success');
       getCards();
@@ -73,17 +93,26 @@ function CreditCardManagement() {
     });
   };
 
-  const setCardActive = (phoneId) => {
+  const setCardActive = (cardId, currentState, expirationDate) => {
+    // Validar si la tarjeta ha expirado
+    const expirationMessage = validateExpirationDate(expirationDate);
+    if (expirationMessage) {
+      return noti.fire('Error', expirationMessage, 'error');
+    }
+
+    const newState = currentState === 'inactiva' ? 'activa' : 'inactiva';
     Axios.put('https://mgbackend-production.up.railway.app/updateCardStatus', {
       user_id: userId,
-      card_id: phoneId,
+      card_id: cardId,
+      estado: newState,
     }).then(() => {
-      noti.fire('¡Teléfono activado!', 'El teléfono ahora está activo.', 'success');
+      noti.fire('¡Actualizado!', `La tarjeta fue ${newState === 'activa' ? 'activada' : 'desactivada'}.`, 'success');
       getCards();
     }).catch((error) => {
-      console.error('Error al actualizar el estado del teléfono:', error);
+      console.error('Error al actualizar el estado de la tarjeta:', error);
     });
   };
+
   const openModal = (card = null) => {
     if (card) {
       setEditar(true);
@@ -92,6 +121,7 @@ function CreditCardManagement() {
       setFechaVencimiento(card.fecha_vencimiento);
       setCodigoSeguridad(card.codigo_seguridad);
       setId(card.id);
+      setEstado(card.estado);  // Establecer el estado de la tarjeta
     } else {
       setEditar(false);
       setNumero('');
@@ -99,12 +129,20 @@ function CreditCardManagement() {
       setFechaVencimiento('');
       setCodigoSeguridad('');
       setId('');
+      setEstado('inactiva');  // Establecer el estado a "inactiva" cuando se agrega una tarjeta nueva
     }
     setShowModal(true);
   };
 
   const closeModal = () => {
     setShowModal(false);
+  };
+
+  const validateExpirationDate = (date) => {
+    const today = new Date();
+    const [month, year] = date.split("-");
+    const expirationDate = new Date(year, month - 1); // Mes - 1 porque JavaScript usa 0-11 para meses
+    return expirationDate >= today ? '' : 'La tarjeta ha expirado.';
   };
 
   useEffect(() => {
@@ -136,18 +174,14 @@ function CreditCardManagement() {
               <td>{card.nombre}</td>
               <td>{card.fecha_vencimiento}</td>
               <td>
-                <Button 
-                  variant={card.estado === 'activa' ? 'success' : 'secondary'} 
-                  onClick={() => setCardActive(card.id, card.estado)}>
-                  {card.estado === 'inactiva' ? 'inactiva' : 'Activa'}
+                <Button
+                  variant={card.estado === 'activa' ? 'success' : 'secondary'}
+                  onClick={() => setCardActive(card.id, card.estado, card.fecha_vencimiento)} // Pasa la fecha de vencimiento
+                >
+                  {card.estado === 'inactiva' ? 'Inactiva' : 'Activa'}
                 </Button>
               </td>
               <td>
-              {card.estado === 'inactivo' && (
-                  <Button variant="success" className="me-2" onClick={() => setCardActive(card.id)}>
-                    Activar
-                  </Button>
-                )}
                 <Button variant="warning" className="me-2" onClick={() => openModal(card)}>
                   Editar
                 </Button>
@@ -175,7 +209,7 @@ function CreditCardManagement() {
                 onChange={(e) => setNumero(e.target.value)}
               />
             </Form.Group>
-
+                
             <Form.Group className="mb-3" controlId="formNombre">
               <Form.Label>Nombre en la Tarjeta</Form.Label>
               <Form.Control
@@ -185,7 +219,7 @@ function CreditCardManagement() {
                 onChange={(e) => setNombre(e.target.value)}
               />
             </Form.Group>
-
+                
             <Form.Group className="mb-3" controlId="formFechaVencimiento">
               <Form.Label>Fecha de Vencimiento</Form.Label>
               <Form.Control
@@ -196,10 +230,10 @@ function CreditCardManagement() {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formCodigoSeguridad">
-              <Form.Label>Código de Seguridad (CVV)</Form.Label>
+              <Form.Label>Código de Seguridad</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="CVV"
+                placeholder="Código de seguridad"
                 value={codigoSeguridad}
                 onChange={(e) => setCodigoSeguridad(e.target.value)}
               />
@@ -210,8 +244,11 @@ function CreditCardManagement() {
           <Button variant="secondary" onClick={closeModal}>
             Cancelar
           </Button>
-          <Button variant="primary" onClick={editar ? updateCard : addCard}>
-            {editar ? 'Actualizar Tarjeta' : 'Agregar Tarjeta'}
+          <Button
+            variant="primary"
+            onClick={editar ? updateCard : addCard}
+          >
+            {editar ? 'Actualizar' : 'Agregar'}
           </Button>
         </Modal.Footer>
       </Modal>

@@ -13,7 +13,7 @@ div.logo_ndx{
     align-items: center;
     text-align: center;
     height: 80vh;
-    color: aliceblue;
+    color: rgb(5, 49, 85);
    /* background-color: #252425;*/
 }
 
@@ -144,12 +144,13 @@ li.itemnv2 a.tooltip-link:hover{
     cursor: pointer;
 }
 /*end*/
-nav .logo{
+nav .logo1{
     display:flex;
     align-items: center;
-    margin: 0 24px;
+    margin: 4px 20px;
+
 }
-.logo .menu-icon {
+.logo1 .menu-icon {
     color: rgb(16, 86, 172);/*color del logo obvio*/
     font-size: 24px;/*modifica el tamaño del logo*/
     margin-right: 23px;/* separa al logo del titulo*/
@@ -157,14 +158,14 @@ nav .logo{
 
 }
 
-.logo .logoform{
-    color:rgb(5, 5, 123);
-    font-size: 30px;/*tamaño titulo*/
-    font-weight: 0;/*separa supongo*/
-    width: 30px;
-    height: 47px;
+.logo1 .logoform1{
+    color:rgb(1, 1, 51);
+    font-size: 10px;/*tamaño titulo*/
+    font-weight: 4px;/*separa supongo*/
+    width: 20px;
+    height: 20px;
 }
-.logo .logoname{
+.logo1 .logoname{
     color:rgb(51, 51, 57);
     font-size: 20px;/*tamaño titulo*/
     font-weight: 0;/*separa supongo*/
@@ -288,12 +289,12 @@ nav.open ~ .overlay{
 
 @keyframes glow {
     0%, 100% {
-        stroke: #3b62ef;
-        filter: drop-shadow(0 0 5px #135464);
+        stroke: #112879;
+        filter: drop-shadow(0 0 5px #153c46);
     }
     50% {
-        stroke: #0095ff;
-        filter: drop-shadow(0 0 20px #21254e);
+        stroke: #054b7c;
+        filter: drop-shadow(0 0 20px #252c7c);
     }
 }
 
@@ -317,7 +318,7 @@ line {
     }
     50% {
         transform: scale(1.5);
-        filter: drop-shadow(0 0 20px #003cff);
+        filter: drop-shadow(0 0 20px #021f7e);
     }
 }
 

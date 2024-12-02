@@ -27,13 +27,13 @@ const Tendencias = () => {
 
   useEffect(() => {
     // Obtener productos
-    fetch('https://mgbackend-production.up.railway.app/productos')
+    fetch('http://localhost:3001/productos')
       .then(response => response.json())
       .then(data => setProductos(data))
       .catch(error => console.error('Error fetching productos:', error));
 
     // Obtener estadísticas de ventas
-    fetch('https://mgbackend-production.up.railway.app/ventas')
+    fetch('http://localhost:3001/ventas')
       .then(response => response.json())
       .then(data => setVentas(data))
       .catch(error => console.error('Error fetching ventas:', error));
@@ -84,7 +84,7 @@ const Tendencias = () => {
     labels: ventas.ganancias.map(g => g.mes),
     datasets: [
       {
-        label: 'Ganancias Mensuales',
+        label: 'Ventas',
         data: ventas.ganancias.map(g => g.ganancia),
         borderColor: 'rgba(75, 192, 192, 1)',
         backgroundColor: 'rgba(75, 192, 192, 0.2)',

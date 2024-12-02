@@ -122,6 +122,8 @@ const ProductDetail = () => {
           {/* Product Info and Cart */}
           <div className="col-md-6">
             <h1>{producto.name}</h1>
+            <p style={{color:'#515151'}}>Autor:<h6>{producto.autor}</h6></p>
+            <hr />
             {/* Descripción con "ver más/menos" */}
             <p><i className="bx bx-info-circle"></i> 
               {isDescriptionExpanded ? producto.descripcion : producto.descripcion.slice(0, 500)} 

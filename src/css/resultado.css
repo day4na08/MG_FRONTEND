@@ -15,6 +15,21 @@
   padding: 0 0px;
 }
 
+.no-resultados {
+  font-size: 1.2rem;
+  color: #555;
+  text-align: center;
+}
+.pagination .page-link:focus {
+  outline: none; /* Quita el borde azul predeterminado */
+  box-shadow: none; /* Quita cualquier sombra aplicada */
+}
+
+
+div.container-noR{
+  width: 53pc;
+
+}
 .producto-card {
   display: flex;
   flex-direction: column;

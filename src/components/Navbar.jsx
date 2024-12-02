@@ -95,9 +95,9 @@ const NavBar = () => {
         <nav className={isNavOpen ? 'open' : ''}>
             <div className="container">
                 <div className="nav-wrapper">
-                    <div className="logo">
+                    <div className="logo1">
                         <i className="bx bx-menu menu-icon" onClick={toggleNav}></i>
-                        <span className="logoform">
+                        <span className="logoform1">
                             <svg viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
                                 <line id="line1" x1="150" y1="31.1" x2="100" y2="56.1" stroke="#ffffff" strokeWidth="6" />
                                 <line id="line2" x1="100" y1="56.1" x2="50" y2="31.1" stroke="#ffffff" strokeWidth="6" />
@@ -168,9 +168,9 @@ const NavBar = () => {
             </div>
 
             <div className={`sidebar ${isNavOpen ? 'open' : ''}`}>
-                <div className="logo">
+                <div className="logo1">
                     <i className='bx bx-menu menu-icon' onClick={toggleNav}></i>
-                    <span className="logoform">
+                    <span className="logoform1">
                         <svg viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
                             <line id="line1" x1="150" y1="31.1" x2="100" y2="56.1" stroke="#ffffff" strokeWidth="6" />
                             <line id="line2" x1="100" y1="56.1" x2="50" y2="31.1" stroke="#ffffff" strokeWidth="6" />

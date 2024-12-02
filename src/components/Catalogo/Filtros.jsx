@@ -8,16 +8,17 @@ function Filtros({ filtros, setFiltros }) {
         });
     };
 
-    const estilos = ["", "Contemporáneo", "Rústico", "Moderno"];
-    const telas = ["", "Cuero", "Telabonita", "Lino"];
-    const acabados = ["", "Cuero", "Aceite", "Liso", "Transparente", "Mate", "Brillante"];
-    const colores = ["", "Negro", "Madera", "Blanco", "Azul Marino", "Marrón"];
+    const estilos = ["Contemporáneo", "Rústico", "Moderno"];
+    const telas = ["Cuero", "Telabonita", "Lino"];
+    const acabados = ["Cuero", "Aceite", "Liso", "Transparente", "Mate", "Brillante"];
+    const colores = ["Negro", "Madera", "Blanco", "Azul Marino", "Marrón"];
+    const categorias = ["Mueble"];
 
     return (
         <div className="filtros-container">
             <h3>Filtros</h3>
             {[
-                { label: 'Categoría', name: 'categoria', options: ["Todas", "Mueble"] },
+                { label: 'Categoría', name: 'categoria', options: categorias },
                 { label: 'Estilo', name: 'estilo', options: estilos },
                 { label: 'Tela', name: 'tela', options: telas },
                 { label: 'Acabado', name: 'acabado', options: acabados },
@@ -26,6 +27,7 @@ function Filtros({ filtros, setFiltros }) {
                 <label key={name}>
                     <span>{label}: </span>
                     <select name={name} value={filtros[name]} onChange={handleChange}>
+                        <option value="">Todos</option>
                         {options.map(option => (
                             <option key={option} value={option}>{option}</option>
                         ))}
@@ -40,6 +42,7 @@ function Filtros({ filtros, setFiltros }) {
                         name={name}
                         value={filtros[name]}
                         onChange={handleChange}
+                        placeholder={idx === 0 ? 'Mínimo' : 'Máximo'}
                     />
                 </label>
             ))}

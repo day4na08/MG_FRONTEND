@@ -1,52 +1,55 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button, Modal, Accordion, Card } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
-import DetallesCompra from './DetallesCompra.jsx'; // Ensure this path is correct
+import { Button, Card, Modal } from 'react-bootstrap';
 import Cookies from 'universal-cookie';
+import { useNavigate } from 'react-router-dom';
 
 const Compras = () => {
+  // State para almacenar las compras del usuario
   const [purchases, setPurchases] = useState([]);
-  const [selectedPurchase, setSelectedPurchase] = useState(null);
-  const [showModal, setShowModal] = useState(false);
-  const navigate = useNavigate();
+  const [selectedPurchase, setSelectedPurchase] = useState(null); // Compra seleccionada
+  const [showModal, setShowModal] = useState(false); // Estado para mostrar el modal
+
   const cookies = new Cookies();
+  const navigate = useNavigate(); // Hook para navegar entre rutas
+  const userId = cookies.get('id'); // Obtiene el ID del usuario desde las cookies
 
-  useEffect(() => {
-    fetchPurchases();
-  }, []);
-
-  const fetchPurchases = async () => {
-    try {
-      const userId = cookies.get('id');
-      if (!userId) {
-        console.error('User ID not found in cookies');
-        return;
-      }
-  
-      const response = await axios.get('https://mgbackend-production.up.railway.app/purchases');
-      if (response.status === 200) {
-        const userPurchases = response.data.filter(purchase => purchase.user.IdUser.toString() === userId.toString());
-        setPurchases(userPurchases);
-      } else {
-        console.error('Failed to fetch purchases:', response.statusText);
-      }
-    } catch (error) {
-      console.error('Error al encontrar la compra:', error);
-    }
+  // Función para obtener las compras del usuario desde la API
+  const getPurchases = () => {
+    axios
+      .get(`https://mgbackend-production.up.railway.app/compras/${userId}`)
+      .then((response) => {
+        setPurchases(response.data);
+      })
+      .catch((error) => {
+        console.error(
+          'Error al obtener las compras:',
+          error.response ? error.response.data : error.message
+        );
+      });
   };
-  
+
+  // Usar useEffect para obtener las compras cuando el componente se monta
+  useEffect(() => {
+    if (userId) {
+      getPurchases();
+    }
+  }, [userId]);
+
+  // Función para manejar la selección de una compra y mostrar el modal
   const handleShowDetails = (purchase) => {
     setSelectedPurchase(purchase);
     setShowModal(true);
   };
 
+  // Función para cerrar el modal
   const handleCloseModal = () => {
     setShowModal(false);
     setSelectedPurchase(null);
   };
 
+  // Función para manejar el clic en un producto y navegar a su página de detalles
   const handleProductClick = (productId) => {
     navigate(`/ProductDetail/${productId}`);
   };
@@ -57,52 +60,98 @@ const Compras = () => {
 
       <h3 className="mb-3">Lista de Compras</h3>
       <div className="d-flex flex-wrap gap-3">
-        {purchases.map(purchase => (
-          <Card key={purchase.id} className="purchase-card shadow-sm border-light rounded">
-            <Card.Header className="d-flex justify-content-between align-items-center">
-              <div>
-                <h4 className="mb-1">Compra ID: {purchase.id}</h4>
-                <p className="mb-0">Comprador: {purchase.user.nombre}</p>
-              </div>
-              <Button variant="primary" onClick={() => handleShowDetails(purchase)}>
-                Ver Más Detalles
-              </Button>
-            </Card.Header>
-            <Accordion flush>
-              <Accordion.Item eventKey="0">
-                <Accordion.Header>Ver Productos</Accordion.Header>
-                <Accordion.Body className="p-3">
-                  {Object.keys(purchase.products).map((productKey) => {
-                    const product = purchase.products[productKey];
-                    return (
-                      <Card
-                        key={product.productId}
-                        className="mb-3 product-card border-light shadow-sm"
-                        onClick={() => handleProductClick(product.productId)}
-                        style={{ cursor: 'pointer' }}
-                      >
-                        <Card.Body>
-                          <Card.Title>{product.nombre}</Card.Title>
-                          <Card.Text>Precio: ${product.precio}</Card.Text>
-                          <Card.Text>Cantidad: {product.cantidad}</Card.Text>
-                        </Card.Body>
-                      </Card>
-                    );
-                  })}
-                </Accordion.Body>
-              </Accordion.Item>
-            </Accordion>
-          </Card>
-        ))}
+        {purchases.length > 0 ? (
+          purchases.map((purchase) => (
+            <Card
+              key={purchase.id_compra}
+              className="purchase-card shadow-sm border-light rounded"
+              style={{ width: '18rem' }}
+            >
+              <Card.Header className="d-flex justify-content-between align-items-center">
+                <div>
+                  <h4 className="mb-1">Compra ID: {purchase.id_compra}</h4>
+                  <p className="mb-0">Comprador: {purchase.name_user}</p>
+                  <p className="mb-0">Fecha: {purchase.fecha_compra}</p>
+                </div>
+              </Card.Header>
+              <Card.Body>
+                <h5>Producto: {purchase.name_product}</h5>
+                <p>
+                  <strong>Precio:</strong> ${purchase.precio}
+                </p>
+                <p>
+                  <strong>Cantidad:</strong> {purchase.cant_comprada}
+                </p>
+                <p>
+                  <strong>Categoría:</strong> {purchase.categoria_product}
+                </p>
+                <Button
+                  variant="primary"
+                  onClick={() => handleShowDetails(purchase)}
+                >
+                  Ver Detalles
+                </Button>
+                <Button
+                  variant="secondary"
+                  className="mt-2"
+                  onClick={() => handleProductClick(purchase.producto_id)}
+                >
+                  Ir al Producto
+                </Button>
+              </Card.Body>
+            </Card>
+          ))
+        ) : (
+          <p>No tienes compras registradas.</p>
+        )}
       </div>
 
-      {selectedPurchase && (
-        <DetallesCompra
-          show={showModal}
-          handleClose={handleCloseModal}
-          purchase={selectedPurchase}
-        />
-      )}
+      {/* Modal para mostrar detalles de la compra */}
+      <Modal show={showModal} onHide={handleCloseModal} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Detalles de la Compra</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {selectedPurchase ? (
+            <div>
+              <p>
+                <strong>Compra ID:</strong> {selectedPurchase.id_compra}
+              </p>
+              <p>
+                <strong>Producto:</strong> {selectedPurchase.name_product}
+              </p>
+              <p>
+                <strong>Precio:</strong> ${selectedPurchase.precio}
+              </p>
+              <p>
+                <strong>Cantidad:</strong> {selectedPurchase.cant_comprada}
+              </p>
+              <p>
+                <strong>Categoría:</strong> {selectedPurchase.categoria_product}
+              </p>
+              <p>
+                <strong>Autor:</strong> {selectedPurchase.autor}
+              </p>
+              <p>
+                <strong>Fecha de Compra:</strong> {selectedPurchase.fecha_compra}
+              </p>
+              <p>
+                <strong>Comprador:</strong> {selectedPurchase.name_user}
+              </p>
+              <p>
+                <strong>Producto ID:</strong> {selectedPurchase.producto_id}
+              </p>
+            </div>
+          ) : (
+            <p>No se encontraron detalles para esta compra.</p>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Cerrar
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

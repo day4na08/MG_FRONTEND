@@ -62,11 +62,13 @@ const Catalog = () => {
                         </Carousel.Item>
                     </Carousel>
                 </div>
+
                 <div className="catalogo-container">
                     <div className="filterPM">
                         <Filtros filtros={filtros} setFiltros={setFiltros} />
                     </div>
                     <div className="filterRP">
+                    <hr />
                         <Resultados filtros={filtros} />
                     </div>
                 </div>
