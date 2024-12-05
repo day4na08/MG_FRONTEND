@@ -24,18 +24,31 @@ function Resultados({ filtros }) {
           const cumpleColor = !filtros.color || producto.color === filtros.color;
           const cumpleTapizMaterial = !filtros.tapizMaterial || producto.tapizMaterial === filtros.tapizMaterial;
           const cumpleMaterialInterno = !filtros.materialInterno || producto.materialInterno === filtros.materialInterno;
-          const cumplePrecio = producto.precio >= filtros.minPrecio && producto.precio <= filtros.maxPrecio;
-
-          return cumpleCategoria && cumpleEstilo && cumpleTela && cumpleAcabado && cumpleColor && cumpleTapizMaterial && cumpleMaterialInterno && cumplePrecio;
+  
+          // Validar el filtro de precios solo si están habilitados (valores definidos)
+          const cumplePrecio =
+            (filtros.minPrecio === '' && filtros.maxPrecio === '') || // Filtro deshabilitado
+            (producto.precio >= (filtros.minPrecio || 0) && producto.precio <= (filtros.maxPrecio || Infinity));
+  
+          return (
+            cumpleCategoria &&
+            cumpleEstilo &&
+            cumpleTela &&
+            cumpleAcabado &&
+            cumpleColor &&
+            cumpleTapizMaterial &&
+            cumpleMaterialInterno &&
+            cumplePrecio
+          );
         });
-
+  
         setProductos(productosFiltrados);
         setTotalPaginas(Math.ceil(productosFiltrados.length / productosPorPagina));
       } catch (error) {
         console.error('Error fetching products:', error);
       }
     };
-
+  
     fetchProductos();
   }, [filtros]);
 
