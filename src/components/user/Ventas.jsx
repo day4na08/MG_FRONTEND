@@ -13,13 +13,13 @@ const Ventas = () => {
 
   const cookies = new Cookies();
   const navigate = useNavigate();
-  const userId = cookies.get('id'); // Obtener el ID del vendedor desde las cookies
+  const authorId = cookies.get('id'); // Obtener el ID del vendedor desde las cookies
 
   // Función para obtener las ventas desde la API
   const fetchSales = async () => {
     try {
       const response = await axios.get(
-        `https://mgbackend-production.up.railway.app/ventas/${userId}`
+        `https://mgbackend-production.up.railway.app/ventas/${authorId}`
       );
       if (response.status === 200) {
         setSales(response.data);
@@ -34,10 +34,10 @@ const Ventas = () => {
 
   // useEffect para cargar las ventas cuando el componente se monta
   useEffect(() => {
-    if (userId) {
+    if (authorId) {
       fetchSales();
     }
-  }, [userId]);
+  }, [authorId]);
 
   // Función para manejar la selección de una venta
   const handleShowDetails = (sale) => {
@@ -61,47 +61,66 @@ const Ventas = () => {
       <h2 className="mb-4">Historial de Ventas</h2>
 
       {sales.length > 0 ? (
-        <div className="d-flex flex-wrap gap-3">
+        <div className="d-flex flex-wrap gap-4">
           {sales.map((sale) => (
             <Card
               key={sale.id_venta}
-              className="sale-card shadow-sm border-light rounded"
-              style={{ width: '18rem' }}
+              className="sale-card shadow-lg border-light rounded-lg p-3"
+              style={{
+                width: '18rem',
+                borderRadius: '10px',
+                transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+              }}
             >
-              <Card.Header>
-                <h5>Venta ID: {sale.id_venta}</h5>
-                <p>
-                  <strong>Cliente:</strong> {sale.cliente_nombre}
-                </p>
-                <p>
-                  <strong>Fecha:</strong> {sale.fecha_venta}
-                </p>
+              <Card.Header className="d-flex justify-content-between align-items-center">
+                <div>
+                  <h5 className="text-uppercase">{sale.id_venta}</h5>
+                  <p className="text-muted">{sale.name_user}</p>
+                  <p className="text-muted">{sale.fecha_compra}</p>
+                </div>
+                <div className="d-flex justify-content-end">
+                  <img
+                    src={sale.img1Product} // Asegúrate de que el campo de imagen exista
+                    alt={sale.name_product}
+                    style={{
+                      width: '100px',
+                      height: '130px',
+                      objectFit: 'cover',
+                      borderRadius: '5px',
+                      boxShadow: '0 0 10px rgba(0,0,0,0.1)',
+                    }}
+                  />
+                </div>
               </Card.Header>
               <Card.Body>
-                <h5>{sale.producto_nombre}</h5>
+                <h5 className="card-title">{sale.name_product}</h5>
                 <p>
-                  <strong>Precio:</strong> ${sale.precio}
+                  <strong>Precio:</strong> ${sale.precio_produt}
                 </p>
                 <p>
-                  <strong>Cantidad:</strong> {sale.cantidad_vendida}
+                  <strong>Cantidad:</strong> {sale.cant_comprada}
                 </p>
                 <p>
-                  <strong>Categoría:</strong> {sale.categoria}
+                  <strong>Categoría:</strong> {sale.categoria_product}
                 </p>
+              </Card.Body>
+              <Card.Footer className="text-center">
                 <Button
                   variant="primary"
                   onClick={() => handleShowDetails(sale)}
-                  className="me-2"
+                  className="me-2 w-100"
+                  style={{ backgroundColor: '#007bff', borderColor: '#007bff' }}
                 >
                   Ver Detalles
                 </Button>
                 <Button
-                  variant="secondary"
+                  variant="outline-secondary"
                   onClick={() => handleProductClick(sale.producto_id)}
+                  className="w-100 mt-2"
                 >
                   Ir al Producto
                 </Button>
-              </Card.Body>
+              </Card.Footer>
             </Card>
           ))}
         </div>
@@ -110,40 +129,58 @@ const Ventas = () => {
       )}
 
       {/* Modal para mostrar detalles de la venta */}
-      <Modal show={showModal} onHide={handleCloseModal} centered>
+      <Modal show={showModal} onHide={handleCloseModal} centered size="lg">
         <Modal.Header closeButton>
           <Modal.Title>Detalles de la Venta</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {selectedSale ? (
-            <div>
-              <p>
-                <strong>Venta ID:</strong> {selectedSale.id_venta}
-              </p>
-              <p>
-                <strong>Producto:</strong> {selectedSale.producto_nombre}
-              </p>
-              <p>
-                <strong>Precio:</strong> ${selectedSale.precio}
-              </p>
-              <p>
-                <strong>Cantidad:</strong> {selectedSale.cantidad_vendida}
-              </p>
-              <p>
-                <strong>Categoría:</strong> {selectedSale.categoria}
-              </p>
-              <p>
-                <strong>Fecha de Venta:</strong> {selectedSale.fecha_venta}
-              </p>
-              <p>
-                <strong>Cliente:</strong> {selectedSale.cliente_nombre}
-              </p>
-              <p>
-                <strong>Producto ID:</strong> {selectedSale.producto_id}
-              </p>
-              <p>
-                <strong>Autor:</strong> {selectedSale.autor}
-              </p>
+            <div className="d-flex justify-content-between align-items-center">
+              {/* Información de la venta */}
+              <div style={{ flex: 1, marginRight: '20px' }}>
+                <p>
+                  <strong>Venta ID:</strong> {selectedSale.id_venta}
+                </p>
+                <p>
+                  <strong>Producto:</strong> {selectedSale.name_product}
+                </p>
+                <p>
+                  <strong>Precio:</strong> ${selectedSale.precio_producto}
+                </p>
+                <p>
+                  <strong>Cantidad:</strong> {selectedSale.cant_comprada}
+                </p>
+                <p>
+                  <strong>Categoría:</strong> {selectedSale.categoria_producto}
+                </p>
+                <p>
+                  <strong>Fecha de Venta:</strong> {selectedSale.fecha_compra}
+                </p>
+                <p>
+                  <strong>Cliente:</strong> {selectedSale.name_user}
+                </p>
+                <p>
+                  <strong>Producto ID:</strong> {selectedSale.producto_id}
+                </p>
+                <p>
+                  <strong>Autor:</strong> {selectedSale.authorId}
+                </p>
+              </div>
+
+              {/* Imagen del producto */}
+              <div style={{ flexShrink: 0 }}>
+                <img
+                  src={selectedSale.img1Product} // Asegúrate de que el campo de imagen exista
+                  alt={selectedSale.name_product}
+                  style={{
+                    width: '180px',
+                    height: '250px',
+                    objectFit: 'cover',
+                    borderRadius: '10px',
+                    boxShadow: '0 0 10px rgba(0,0,0,0.1)',
+                  }}
+                />
+              </div>
             </div>
           ) : (
             <p>No se encontraron detalles para esta venta.</p>

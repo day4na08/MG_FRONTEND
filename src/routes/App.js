@@ -11,7 +11,6 @@ import { CartProvider } from '../components/CartContext.jsx'
 import Carrito from "../pages/carrito.jsx";
 import AccountSettings from "../pages/AccountSettings.jsx";
 import Index from "../pages/Index.jsx";
-import ProductCrud from '../components/ProductCrud'
 import AdminPage from "../pages/Admin.jsx";
 import UserPage from "../pages/User.jsx";
 import UserCartFavorites from "../components/UserCartFavorites.jsx";
@@ -38,7 +37,6 @@ function App() {
         <Route path="/Carrito" element={<Carrito />} />
         <Route path="/AccountSettings" element={<AccountSettings />} />
         <Route path="/" element={<Index />} />
-        <Route path="/ProductCrud" element={<ProductCrud />} />
         <Route path="/admin" element={<AdminPage />} />
         <Route path="/user" element={<UserPage />} />
         <Route path="/UserCartFavorites" element={<UserCartFavorites/>} />

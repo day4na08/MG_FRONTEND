@@ -84,6 +84,7 @@ const Carrito = () => {
                   <Link to="/Catalog" className="btn btn-outline-dark" style={{ padding: '10px', marginBottom: '7pc' }}>
                     <i className="bx bx-chevron-left"></i> Ver más productos
                   </Link>
+                  
                 </div>
               ) : (
                 <div>

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Bar, Line, Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement } from 'chart.js';
@@ -7,8 +6,6 @@ import '../css/Tendencias.css';
 import NavBar from '../components/Navbar';
 import Footer from '../components/Footer';
 
-
-// Registro de componentes de Chart.js
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -22,40 +19,47 @@ ChartJS.register(
 );
 
 const Tendencias = () => {
-  const [productos, setProductos] = useState([]);
-  const [ventas, setVentas] = useState({ categorias: [], ganancias: [] });
+  const [ganancias, setGanancias] = useState([]);
+  const [estadisticas, setEstadisticas] = useState([]);
+  const [productosPopulares, setProductosPopulares] = useState([]);
 
   useEffect(() => {
-    // Obtener productos
-    fetch('https://mgbackend-production.up.railway.app/productos')
+    // Fetch ganancias
+    fetch('https://mgbackend-production.up.railway.app/ganancias')
       .then(response => response.json())
-      .then(data => setProductos(data))
-      .catch(error => console.error('Error fetching productos:', error));
+      .then(data => setGanancias(data))
+      .catch(error => console.error('Error fetching ganancias:', error));
 
-    // Obtener estadísticas de ventas
-    fetch('https://mgbackend-production.up.railway.app/ventas')
+    // Fetch estadisticas
+    fetch('https://mgbackend-production.up.railway.app/estadisticas')
       .then(response => response.json())
-      .then(data => setVentas(data))
-      .catch(error => console.error('Error fetching ventas:', error));
+      .then(data => setEstadisticas(data))
+      .catch(error => console.error('Error fetching estadisticas:', error));
+
+    // Fetch productos_populares
+    fetch('https://mgbackend-production.up.railway.app/productos_populares')
+      .then(response => response.json())
+      .then(data => setProductosPopulares(data))
+      .catch(error => console.error('Error fetching productos populares:', error));
+  }, []);
+
+  // Filtrar productos únicos por id_product de la tabla estadisticas
+  const uniqueProducts = estadisticas.reduce((acc, current) => {
+    if (!acc.find(item => item.id_product === current.id_product)) {
+      acc.push(current);
+    }
+    return acc;
   }, []);
 
   // Datos para el gráfico de barras
   const barData = {
-    labels: ventas.categorias.map(cat => cat.categoria),
+    labels: ganancias.map(item => item.mes),
     datasets: [
       {
-        label: 'Ventas por Categoría (unidades)',
-        data: ventas.categorias.map(cat => cat.ventas),
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)'
-        ],
-        borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)'
-        ],
+        label: 'Ganancias (USD)',
+        data: ganancias.map(item => item.ganancias),
+        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+        borderColor: 'rgba(54, 162, 235, 1)',
         borderWidth: 1
       }
     ]
@@ -63,29 +67,28 @@ const Tendencias = () => {
 
   // Datos para el gráfico circular
   const pieData = {
-    labels: ventas.categorias.map(cat => cat.categoria),
+    labels: productosPopulares.map(item => item.categoria),
     datasets: [
       {
-        label: 'Participación en Ventas',
-        data: ventas.categorias.length > 0 ? ventas.categorias.map(cat => (cat.ventas / ventas.categorias.reduce((acc, curr) => acc + curr.ventas, 0)) * 100) : [],
+        label: 'Categorías Populares',
+        data: productosPopulares.map(item => item.cantidad),
         backgroundColor: [
-          'rgba(75, 192, 192, 0.8)',
-          'rgba(255, 159, 64, 0.8)',
-          'rgba(153, 102, 255, 0.8)'
+          'rgba(255, 99, 132, 0.6)',
+          'rgba(54, 162, 235, 0.6)',
+          'rgba(255, 206, 86, 0.6)'
         ],
-        borderColor: '#fff',
-        borderWidth: 2
+        borderWidth: 1
       }
     ]
   };
 
   // Datos para el gráfico de líneas
   const lineData = {
-    labels: ventas.ganancias.map(g => g.mes),
+    labels: estadisticas.map(item => item.fecha_venta),
     datasets: [
       {
-        label: 'Ventas',
-        data: ventas.ganancias.map(g => g.ganancia),
+        label: 'Ventas por Fecha',
+        data: estadisticas.map(item => item.precio_gana),
         borderColor: 'rgba(75, 192, 192, 1)',
         backgroundColor: 'rgba(75, 192, 192, 0.2)',
         borderWidth: 2,
@@ -107,12 +110,16 @@ const Tendencias = () => {
           <div className="card">
             <h3>Muebles más vendidos</h3>
             <div className="product-list">
-              {productos.map(producto => (
-                <div key={producto.id} className="product">
-                  <img src={producto.imagen} alt={producto.nombre} className="product-img" />
+              {uniqueProducts.map((item, index) => (
+                <div key={index} className="product" style={{ display: 'flex', alignItems: 'center', marginBottom: '15px' }}>
+                  <img 
+                    src={item.img1_product} 
+                    alt={item.nombre_product} 
+                    style={{ width: '80px', height: '80px', objectFit: 'cover', marginRight: '15px', borderRadius: '5px' }} 
+                  />
                   <div className="product-info">
-                    <h4>{producto.nombre}</h4>
-                    <p>{producto.unidades} unidades</p>
+                    <h4>{item.nombre_product}</h4>
+                    <p>{item.cant_vendida} unidades vendidas</p>
                   </div>
                 </div>
               ))}
@@ -120,31 +127,19 @@ const Tendencias = () => {
           </div>
 
           <div className="card">
-            <h3>unidades vendidas
-            </h3>
+            <h3>Unidades Vendidas</h3>
             <Line data={lineData} options={{ responsive: true }} />
-            <p className="trend-indicator">▲ $10,000 (+2%)</p>
-            <p><strong>$350,000</strong> en el último mes</p>
           </div>
 
           <div className="card">
-            <h3>Categorías más populares</h3>
-            <ul>
-              {ventas.categorias.map(cat => (
-                <li key={cat.categoria}>{cat.categoria} - {cat.ventas} unidades</li>
-              ))}
-            </ul>
+            <h3>Categorías Más Populares</h3>
+            <Pie data={pieData} options={{ responsive: true }} />
           </div>
         </div>
 
         <div className="chart-section">
-          <h3>Gráfico de ventas por categoría</h3>
+          <h3>Ganancias por Mes</h3>
           <Bar data={barData} options={{ responsive: true }} />
-        </div>
-
-        <div className="chart-section">
-          <h3>Participación en las ventas totales</h3>
-          <Pie data={pieData} options={{ responsive: true }} />
         </div>
       </section>
       <Footer />

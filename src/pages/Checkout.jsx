@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Cookies from "universal-cookie";
 import axios from "axios";
+import Swal from "sweetalert2";
+
 
 const CheckoutForm = ({ cartItems, onPurchaseComplete }) => {
   const [userData, setUserData] = useState({
@@ -40,7 +42,6 @@ const CheckoutForm = ({ cartItems, onPurchaseComplete }) => {
     }
   }, []);
 
-  // Mostrar teléfono
   const mostrarTelefono = (userId) => {
     axios
       .get(`https://mgbackend-production.up.railway.app/phoneUser/${userId}`)
@@ -82,10 +83,8 @@ const CheckoutForm = ({ cartItems, onPurchaseComplete }) => {
       });
   };
 
-  // Configurar productos del carrito
   useEffect(() => {
     const products = cartItems.map((item) => ({
-    
       cantComprada: item.quantity,
       precio: item.precio,
       estilo: item.estilo,
@@ -93,12 +92,11 @@ const CheckoutForm = ({ cartItems, onPurchaseComplete }) => {
       img1Product: item.imagen1,
       autor: item.autor,
       productoId: item.id,
-      autorid: item.userId
+      autorid: item.userId,
     }));
     setProductForms(products);
   }, [cartItems]);
 
-  // Manejar cambios en los formularios
   const handleChange = (e, index = null) => {
     const { name, value } = e.target;
     if (index !== null) {
@@ -110,10 +108,8 @@ const CheckoutForm = ({ cartItems, onPurchaseComplete }) => {
     }
   };
 
-  // Validar formulario
   const validateForm = () => {
     if (currentStep === 1) {
-      // Validación para los datos del cliente
       return (
         userData.direccion &&
         userData.ciudad &&
@@ -123,7 +119,6 @@ const CheckoutForm = ({ cartItems, onPurchaseComplete }) => {
         userData.cvv
       );
     } else if (currentStep > 1 && currentStep <= productForms.length + 1) {
-      // Validación para los productos
       const product = productForms[currentStep - 2];
       return (
         product &&
@@ -135,14 +130,12 @@ const CheckoutForm = ({ cartItems, onPurchaseComplete }) => {
     }
     return false;
   };
-  
 
   const nextStep = () => {
     if (validateForm() && currentStep < productForms.length + 1) {
       setCurrentStep(currentStep + 1);
     }
   };
-  
 
   const prevStep = () => {
     if (currentStep > 1) {
@@ -150,92 +143,114 @@ const CheckoutForm = ({ cartItems, onPurchaseComplete }) => {
     }
   };
 
+  const triggerPurchaseLogic = async () => {
+    try {
+      for (const product of productForms) {
+        const ventaResponse = await axios.post(
+          "https://mgbackend-production.up.railway.app/addventa",
+          {
+            userId: userData.userId,
+            autorId: product.autorid,
+            cantComprada: product.cantComprada,
+            precioProducto: product.precio,
+            nameProduct: product.nameProduct,
+            categoriaProduct: product.estilo,
+            img1Product: product.img1Product,
+            autor: product.autor,
+            productoId: product.productoId,
+            nameUser: userData.nameUser,
+            fechaCompra: new Date().toISOString().split("T")[0],
+          }
+        );
+  
+        if (ventaResponse.status !== 200) {
+          throw new Error("Error al procesar la venta.");
+        }
+      }
+      setMessage("Lógica de triggers ejecutada exitosamente.");
+  
+    } catch (error) {
+      console.error("Error al ejecutar los triggers:", error);
+      setMessage("Hubo un error al ejecutar los triggers.");
+  
+      // Mostrar alerta en caso de error
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Hubo un error al ejecutar los triggers. Inténtalo nuevamente.",
+        confirmButtonText: "Aceptar",
+      });
+    }
+  };
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
   
     try {
-      // 1. Insertar datos del cliente
-      const clienteResponse = await axios.post('https://mgbackend-production.up.railway.app/clientes', {
-        nameUser: userData.nameUser,
-        email: userData.email,
-        telefono: userData.telefono,
-        direccion: userData.direccion,
-        ciudad: userData.ciudad,
-        codigoPostal: userData.codigoPostal,
-        numTargeta: userData.numTargeta,
-        vencimientoTargeta: userData.vencimientoTargeta,
-        cvv: userData.cvv,
-        userId: userData.userId
-      });
-  
-      // Verificar si la inserción del cliente fue exitosa
-      if (clienteResponse.status !== 200) {
-        throw new Error('Error al insertar datos del cliente');
-      }
-  
-      // 2. Insertar compras y ventas para cada producto
-      for (const product of productForms) {
-        // Insertar compra
-        const compraResponse = await axios.post('https://mgbackend-production.up.railway.app/addcompra', {
-          userId: userData.userId,
-          autorId: product.autorid,
-          cantComprada: product.cantComprada,
-          precio: product.precio,
-          categoriaProduct: product.estilo,
-          nameProduct: product.nameProduct,
-          img1Product: product.img1Product,
-          autor: product.autor,
-          productoId: product.productoId,
+      // Enviar los datos del cliente
+      const clienteResponse = await axios.post(
+        "https://mgbackend-production.up.railway.app/clientes",
+        {
           nameUser: userData.nameUser,
           email: userData.email,
-          fechaCompra: new Date().toISOString().split("T")[0]
-        });
-  
-        // Verificar si la inserción de la compra fue exitosa
-        if (compraResponse.status !== 200) {
-          throw new Error('Error al insertar datos de compra');
-        }
-  
-
-  
-        // Insertar venta
-        const ventaResponse = await axios.post('https://mgbackend-production.up.railway.app/addventa', {
+          telefono: userData.telefono,
+          direccion: userData.direccion,
+          ciudad: userData.ciudad,
+          codigoPostal: userData.codigoPostal,
+          numTargeta: userData.numTargeta,
+          vencimientoTargeta: userData.vencimientoTargeta,
+          cvv: userData.cvv,
           userId: userData.userId,
-          autorId: product.autorid,
-          cantComprada: product.cantComprada,
-          precioProducto: product.precio,
-          nameProduct: product.nameProduct,
-          categoriaProduct: product.estilo,
-          img1Product: product.img1Product,
-          autor: product.autor,
-          productoId: product.productoId,
-          nameUser: userData.nameUser,
-          fechaCompra: new Date().toISOString().split("T")[0]
-        });
+        }
+      );
   
-        // Verificar si la inserción de la venta fue exitosa
-        if (ventaResponse.status !== 200) {
-          throw new Error('Error al insertar datos de venta');
+      if (clienteResponse.status !== 200) {
+        throw new Error("Error al insertar datos del cliente");
+      }
+  
+      // Enviar los datos de cada producto
+      for (const product of productForms) {
+        const compraResponse = await axios.post(
+          "https://mgbackend-production.up.railway.app/addcompra",
+          { ...product, autorId: product.autorid, ...userData }
+        );
+  
+        if (compraResponse.status !== 200) {
+          throw new Error("Error al insertar datos de compra");
         }
       }
   
-      // Si todo fue exitoso, llamar a onPurchaseComplete
-      onPurchaseComplete({
-        ...userData,
-        productos: productForms,
-        fechaCompra: new Date().toISOString().split("T")[0]
-      });
-  
-      // Mostrar mensaje de éxito
-      setMessage("Compra realizada con éxito");
+      // Vaciar el carrito después de la compra exitosa
+      onPurchaseComplete();
+      // Mostrar alerta de compra finalizada usando SweetAlert2
+        Swal.fire({
+          icon: "success",
+          title: "Compra Finalizada",
+          html: "¡La compra se ha procesado exitosamente! <br> Te Hemos enviado un correo con mas detalles de la compra.",
+          confirmButtonText: "Aceptar",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // Ejecuta la lógica de triggers cuando el usuario hace clic en "Aceptar"
+            triggerPurchaseLogic();
+          }
+        });
+
   
     } catch (error) {
       console.error("Error en la compra:", error);
-      setMessage("Hubo un error al procesar la compra. Intente nuevamente.");
+      setMessage("Error al procesar la compra.");
+  
+      // Mostrar alerta en caso de error
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Hubo un error al procesar la compra. Inténtalo nuevamente.",
+        confirmButtonText: "Aceptar",
+      });
     }
   };
   
-
+  
 
   return (
     <div className="container my-4">
@@ -482,16 +497,16 @@ const CheckoutForm = ({ cartItems, onPurchaseComplete }) => {
       Siguiente
     </button>
   )}
+{currentStep === productForms.length + 1 && (
+  <button
+    type="submit"
+    className="btn btn-success"
+    disabled={!validateForm()} // Se deshabilita si la validación falla
+  >
+    Finalizar Compra
+  </button>
+)}
 
-  {currentStep === productForms.length + 1 && (
-    <button
-      type="submit"
-      className="btn btn-success"
-      disabled={!validateForm()} // Se deshabilita si la validación falla
-    >
-      Finalizar Compra
-    </button>
-  )}
   
   {currentStep > 1 && (
     <button
@@ -507,6 +522,7 @@ const CheckoutForm = ({ cartItems, onPurchaseComplete }) => {
           </div>
         )}
       </form>
+      
     </div>
   );
 };

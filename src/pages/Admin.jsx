@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import UserProfile from '../components/UserProfile';
 import CreditCardTable from '../components/user/CreditCardTable';
-import ProductCrud from '../components/ProductCrud';
+import ProductCrud from '../components/Productos/ProductCrud';
 import '../css/UserPage.css';
 import NavBar from '../components/Navbar';
 import UserManagement from '../components/admin/UserManagement';
