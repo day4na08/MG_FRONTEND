@@ -255,7 +255,7 @@ const ProductCrud = () => {
 
             <div className="row">
               <div className="col-md-4">
-                <label>Name: <input onChange={(event) => setName(event.target.value)} value={name} required type='text' className="form-control" /></label>
+                <label>Nombre: <input onChange={(event) => setName(event.target.value)} value={name} required type='text' className="form-control" /></label>
               </div>
               <div className="col-md-4">
                 <label>Material: 
@@ -387,7 +387,7 @@ const ProductCrud = () => {
               ) : (
                 <div className="modal-footer">
                 <button type="button" className="btn btn-secondary" onClick={toggleForm}>Cerrar</button>
-              <button type="button" className="btn btn-primary" onClick={add}>Registrar Producto</button>
+              <button type="button" className="btn btn-primary" onClick={() => {add();toggleForm();}}>Registrar Producto</button>
               </div>
               )}
             </div>
