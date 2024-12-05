@@ -100,7 +100,8 @@ class Register extends Component {
         return (
             <div>
                 <Navbar />
-                <div className='n'>
+                <div className='n' style={{
+                    marginTop: '4pc' }}>
                     <div className="form-container">
                         <img src={logo} alt="Logo" className="logo" />
                         <h2>Registro</h2>

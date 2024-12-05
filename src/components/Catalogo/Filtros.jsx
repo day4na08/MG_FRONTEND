@@ -9,7 +9,7 @@ function Filtros({ filtros, setFiltros }) {
     };
 
     const estilos = ["Contemporáneo", "Rústico", "Moderno"];
-    const telas = ["Cuero", "Telabonita", "Lino"];
+    const telas = ["Cuero", "TelaSeda", "TelaLino"];
     const acabados = ["Cuero", "Aceite", "Liso", "Transparente", "Mate", "Brillante"];
     const colores = ["Negro", "Madera", "Blanco", "Azul Marino", "Marrón"];
     const categorias = ["Mueble"];

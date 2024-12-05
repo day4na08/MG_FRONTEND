@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'universal-cookie';
-import '../../css/LogoutButton.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const cookies = new Cookies();
 
@@ -32,62 +32,53 @@ const LogoutButton = () => {
   // Verifica si el usuario está autenticado
   const isAuthenticated = cookies.get('id') !== undefined;
 
-  // Estilos en línea
-  const styles = {
-    modalOverlay: {
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      zIndex: 1000,
-    },
-    modalContent: {
-      background: 'white',
-      padding: '20px',
-      borderRadius: '8px',
-      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-      textAlign: 'center',
-    },
-    confirmButton2: {
-      margin: '5px',
-      padding: '10px 20px',
-      border: 'none',
-      borderRadius: '4px',
-      cursor: 'pointer',
-      backgroundColor: '#0056b3',
-      color: 'white',
-    },
-    cancelButton1: {
-      margin: '5px',
-      padding: '10px 20px',
-      border: 'none',
-      borderRadius: '4px',
-      cursor: 'pointer',
-      backgroundColor: '#e0e0e0',
-    },
-  };
-
-  // Renderiza el botón solo si el usuario está autenticado
   return (
     <>
       {isAuthenticated && (
         <>
-          <button onClick={() => setIsModalOpen(true)} className="logout-button">
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="btn btn-primary"
+          >
             Cerrar Sesión
           </button>
 
           {isModalOpen && (
-            <div style={styles.modalOverlay}>
-              <div style={styles.modalContent}>
-                <h2>Confirmar Cierre de Sesión</h2>
-                <p>¿Está seguro de que desea cerrar sesión?</p>
-                <button onClick={handleConfirmLogout} style={styles.confirmButton2}>Sí</button>
-                <button onClick={handleCancelLogout} style={styles.cancelButton1}>No</button>
+            <div
+              className="modal show d-flex justify-content-center align-items-center"
+              tabIndex="-1"
+              style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)', height: '100vh' }}
+            >
+              <div className="modal-dialog modal-dialog-centered">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <h5 className="modal-title">Confirmar Cierre de Sesión</h5>
+                    <button
+                      type="button"
+                      className="btn-close"
+                      onClick={handleCancelLogout}
+                    ></button>
+                  </div>
+                  <div className="modal-body">
+                    <p className="text-center">
+                      ¿Está seguro de que desea cerrar sesión?
+                    </p>
+                  </div>
+                  <div className="modal-footer justify-content-center">
+                    <button
+                      className="btn btn-danger"
+                      onClick={handleConfirmLogout}
+                    >
+                      Sí
+                    </button>
+                    <button
+                      className="btn btn-secondary"
+                      onClick={handleCancelLogout}
+                    >
+                      No
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           )}

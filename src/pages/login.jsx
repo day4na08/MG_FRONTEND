@@ -114,7 +114,7 @@ class Login extends Component {
             <div>
                 <Navbar />
                 <Container className="d-flex justify-content-center min-vh-100">
-                    <div className="card p-4" style={{ maxWidth: '380px', width: '100%' }}>
+                    <div className="card p-4" style={{ maxWidth: '380px', width: '100%', marginTop: '4pc' }}>
                         <img
                             src={logo}
                             alt="Logo"

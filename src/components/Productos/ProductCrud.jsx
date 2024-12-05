@@ -229,7 +229,7 @@ const ProductCrud = () => {
 
     // Define the options for various fields
     const estiloOptions = ["", "Contemporáneo", "Rústico", "Moderno"];
-    const telaOptions = ["", "Cuero", "Telabonita", "Lino"];
+    const telaOptions = ["", "Cuero", "TelaSeda", "TelaLino"];
     const acabadoOptions = ["", "Cuero", "Aceite", "Liso", "Transparente", "Mate", "Brillante"];
     const colorOptions = ["", "Negro", "Madera", "Blanco", "Azul Marino", "Marrón", "Gris"];
     const tapizMaterialOptions = ["", "Cuero", "Tela"];
