@@ -15,7 +15,7 @@ const Catalog = () => {
         tapizMaterial: '',
         materialInterno: '',
         minPrecio: 0,
-        maxPrecio: 1000000,
+        maxPrecio: 100000000,
     });
 
     return (

@@ -26,8 +26,9 @@ function Resultados({ filtros }) {
           const cumpleMaterialInterno = !filtros.materialInterno || producto.materialInterno === filtros.materialInterno;
   
           // Validar el filtro de precios solo si están habilitados (valores definidos)
+          const maxPrecio = filtros.maxPrecio && !isNaN(filtros.maxPrecio) ? parseFloat(filtros.maxPrecio) : 100000000;
           const cumplePrecio =
-            (filtros.minPrecio === '' && filtros.maxPrecio === '') || // Filtro deshabilitado
+          (filtros.minPrecio === '0' && maxPrecio === '100000000') || // Filtro deshabilitado
             (producto.precio >= (filtros.minPrecio || 0) && producto.precio <= (filtros.maxPrecio || Infinity));
   
           return (

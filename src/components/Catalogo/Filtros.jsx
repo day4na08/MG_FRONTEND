@@ -13,14 +13,14 @@ function Filtros({ filtros, setFiltros }) {
     const togglePrecios = () => {
         const nuevoEstado = !preciosHabilitados;
         setPreciosHabilitados(nuevoEstado);
-
+    
         setFiltros({
             ...filtros,
             minPrecio: '',
-            maxPrecio: nuevoEstado ? filtros.maxPrecio || '10000000' : '',
+            maxPrecio: nuevoEstado ? filtros.maxPrecio || '100000000' : '100000000',
         });
     };
-
+    
     const estilos = ["Contemporáneo", "Rústico", "Moderno"];
     const telas = ["Cuero", "TelaSeda", "TelaLino"];
     const acabados = ["Cuero", "Aceite", "Liso", "Transparente", "Mate", "Brillante"];
