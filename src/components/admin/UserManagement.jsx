@@ -155,7 +155,7 @@ function UserManagement() {
           <Modal.Title>{editar ? 'Editar Usuario' : 'Registrar Nuevo Usuario'}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <form>
+          <form autocomplete="off"> 
             <div className="mb-3">
               <label htmlFor="username" className="form-label">Nombre</label>
               <input

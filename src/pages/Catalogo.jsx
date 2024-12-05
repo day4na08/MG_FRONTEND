@@ -4,6 +4,7 @@ import NavBar from '../components/Navbar';
 import Footer from '../components/Footer';
 import Resultados from '../components/Catalogo/Resultados';
 import { Carousel } from 'react-bootstrap'; // Importar el componente Carousel de Bootstrap
+import Search from '../components/search';
 
 const Catalog = () => {
     const [filtros, setFiltros] = useState({

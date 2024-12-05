@@ -255,7 +255,7 @@ const CheckoutForm = ({ cartItems, onPurchaseComplete }) => {
   return (
     <div className="container my-4">
       <h2 className="mb-4">Formulario de Compra</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} autocomplete="off" >
       {currentStep === 1 && (
   <div>
     <h4>Información del Cliente</h4>
